@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>ApplicationID</key>
-	<string>E036A0C5-6829-4B40-9B3B-3E05F6DF32B2</string>
+	<string>0e081febc36906aaa228f98c11236cc799b60b103891dd8c540f4cd47f461624</string>
 	<key>Server</key>
-	<string>http://localhost:1337/parse</string>
+	<string>https://wyang-ios-midterm.herokuapp.com/parse</string>
 	<key>LiveQueryServer</key>
 	<string></string>
 	<key>UseTransactions</key>
