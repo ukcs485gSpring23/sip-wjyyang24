@@ -14,6 +14,8 @@ import CareKitStore
 import WatchConnectivity
 import os.log
 
+// swiftlint:disable function_parameter_count
+
 class LoginViewModel: ObservableObject {
 
     // MARK: Public read, private write properties
@@ -142,7 +144,9 @@ class LoginViewModel: ObservableObject {
                 username: String,
                 password: String,
                 firstName: String,
-                lastName: String) async {
+                lastName: String,
+                email: String) async {
+
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -152,6 +156,7 @@ class LoginViewModel: ObservableObject {
             // Set any properties you want saved on the user befor logging in.
             newUser.username = username.lowercased()
             newUser.password = password
+            newUser.email = email
             let user = try await newUser.signup()
             Logger.login.info("Parse signup successful: \(user)")
             let patient = try await savePatientAfterSignUp(type,
