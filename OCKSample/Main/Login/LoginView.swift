@@ -166,7 +166,7 @@ struct LoginView: View {
             }
             Spacer()
 
-            Text("Wesley's App")
+            Text("App designed by Wesley Yang")
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .padding()
