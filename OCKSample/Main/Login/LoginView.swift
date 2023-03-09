@@ -36,12 +36,14 @@ struct LoginView: View {
             // Change the title to the name of your application
             Text("Wesley's App")
                 .font(.largeTitle)
+                .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding()
+                .shadow(radius: 10)
             // Change this image to something that represents your application
-            Image("exercise.jpg")
+            Image("nature.jpg")
                 .resizable()
-                .frame(width: 150, height: 150, alignment: .center)
+                .frame(width: 200, height: 200, alignment: .center)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color(.white), lineWidth: 4))
                 .shadow(radius: 10)
@@ -167,9 +169,10 @@ struct LoginView: View {
             Spacer()
 
             Text("App designed by Wesley Yang")
-                .font(.largeTitle)
+                .font(.footnote)
                 .foregroundColor(.white)
                 .padding()
+                .shadow(radius: 10)
 
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color(tintColorFlip),
