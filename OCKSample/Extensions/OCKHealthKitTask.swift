@@ -1,17 +1,15 @@
 //
-//  OCKTask.swift
+//  OCKHealthKitTask.swift
 //  OCKSample
 //
-//  Created by  on 3/21/23.
+//  Created by Wesley Yang on 3/23/23.
 //  Copyright © 2023 Network Reconnaissance Lab. All rights reserved.
 //
 
 import Foundation
 import CareKitStore
 
-extension OCKTask {
-
-    /// The actual CareKit card for this task
+extension OCKHealthKitTask {
     var card: CareKitCard {
         get {
             guard let cardInfo = userInfo?[Constants.card],

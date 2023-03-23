@@ -57,6 +57,7 @@ extension OCKHealthKitPassthroughStore {
                 quantityType: .cumulative,
                 unit: .count()))
         steps.asset = "figure.walk"
+        steps.card = .numericProgress
         try await addTasksIfNotPresent([steps])
     }
 }

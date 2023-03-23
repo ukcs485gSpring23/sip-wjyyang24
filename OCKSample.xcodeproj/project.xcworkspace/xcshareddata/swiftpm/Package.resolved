@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "carekitutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/netreconlab/CareKitUtilities.git",
+      "state" : {
+        "revision" : "ca65485fd95f40ae1bc27f61ee062b2688ad2554",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "fhirmodels",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/FHIRModels.git",
@@ -32,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "f455830724244dd0077169d888f487b5b3435aae",
-        "version" : "0.12.0"
+        "revision" : "57aaabd1dfe0d038ffc40e95239b2445ed832d74",
+        "version" : "0.13.1"
       }
     }
   ],
