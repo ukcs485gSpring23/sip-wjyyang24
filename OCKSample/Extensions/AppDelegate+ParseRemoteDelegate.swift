@@ -5,7 +5,6 @@
 //  Created by Corey Baker on 9/18/22.
 //  Copyright © 2022 Network Reconnaissance Lab. All rights reserved.
 //
-
 import UIKit
 import CareKitStore
 import ParseCareKit
@@ -19,8 +18,6 @@ extension AppDelegate: ParseRemoteDelegate {
 
     func successfullyPushedDataToCloud() {
         if isFirstTimeLogin {
-            // swiftlint:disable:next line_length
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.completedFirstSyncAfterLogin)))
             isFirstTimeLogin.toggle()
         }
         #if !targetEnvironment(simulator)
