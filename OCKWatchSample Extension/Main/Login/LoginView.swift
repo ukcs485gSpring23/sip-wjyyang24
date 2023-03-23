@@ -5,10 +5,10 @@
 //  Created by Corey Baker on 9/23/22.
 //  Copyright © 2022 Network Reconnaissance Lab. All rights reserved.
 //
-
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @ObservedObject var viewModel: LoginViewModel
 
     var body: some View {

@@ -5,7 +5,6 @@
 //  Created by Corey Baker on 1/5/22.
 //  Copyright © 2022 Network Reconnaissance Lab. All rights reserved.
 //
-
 import Foundation
 import CareKitStore
 import HealthKit
@@ -37,7 +36,7 @@ extension OCKHealthKitPassthroughStore {
                 _ = try await addTasks(tasksNotInStore)
                 Logger.ockHealthKitPassthroughStore.info("Added tasks into HealthKitPassthroughStore!")
             } catch {
-                Logger.ockHealthKitPassthroughStore.error("Error adding HealthKitTasks: \(error.localizedDescription)")
+                Logger.ockHealthKitPassthroughStore.error("Error adding HealthKitTasks: \(error)")
             }
         }
     }
