@@ -20,60 +20,91 @@ struct ProfileView: View {
     @State var birthday = Date()
 
     var body: some View {
-        VStack {
-            VStack(alignment: .leading) {
-                TextField("First Name", text: $firstName)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+        NavigationView {
+            VStack {
+                VStack(alignment: .leading) {
+                    TextField("First Name", text: $firstName)
+                        .padding()
+                        .cornerRadius(20.0)
+                        .shadow(radius: 10.0, x: 20, y: 10)
 
-                TextField("Last Name", text: $lastName)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                    TextField("Last Name", text: $lastName)
+                        .padding()
+                        .cornerRadius(20.0)
+                        .shadow(radius: 10.0, x: 20, y: 10)
 
-                DatePicker("Birthday", selection: $birthday, displayedComponents: [DatePickerComponents.date])
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                    DatePicker("Birthday", selection: $birthday, displayedComponents: [DatePickerComponents.date])
+                        .padding()
+                        .cornerRadius(20.0)
+                        .shadow(radius: 10.0, x: 20, y: 10)
+                }
+
+                Button(action: {
+                    Task {
+                        do {
+                            try await viewModel.saveProfile(firstName,
+                                                            last: lastName,
+                                                            birth: birthday)
+                        } catch {
+                            Logger.profile.error("Error saving profile: \(error)")
+                        }
+                    }
+                }, label: {
+                    Text("Save Profile")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 300, height: 50)
+                })
+                .background(Color(.green))
+                .cornerRadius(15)
+
+                // Notice that "action" is a closure (which is essentially
+                // a function as argument like we discussed in class)
+                Button(action: {
+                    Task {
+                        await loginViewModel.logout()
+                    }
+                }, label: {
+                    Text("Log Out")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 300, height: 50)
+                })
+                .background(Color(.red))
+                .cornerRadius(15)
             }
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button("Add a Task") {
+                        let thisMorning = Calendar.current.startOfDay(for: Date())
+                        let aFewDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: thisMorning)!
+                        let beforeBreakfast = Calendar.current.date(byAdding: .hour, value: 8, to: aFewDaysAgo)!
+                        let afterLunch = Calendar.current.date(byAdding: .hour, value: 14, to: aFewDaysAgo)!
 
-            Button(action: {
-                Task {
-                    do {
-                        try await viewModel.saveProfile(firstName,
-                                                        last: lastName,
-                                                        birth: birthday)
-                    } catch {
-                        Logger.profile.error("Error saving profile: \(error)")
+                        let schedule = OCKSchedule(composing: [
+                            OCKScheduleElement(start: beforeBreakfast,
+                                               end: nil,
+                                               interval: DateComponents(day: 1)),
+
+                            OCKScheduleElement(start: afterLunch,
+                                               end: nil,
+                                               interval: DateComponents(day: 2))
+                        ])
+                        guard let uuid = try? await Utility.getRemoteClockUUID() else {
+                            Logger.profile.error("Could not get remote uuid for this user")
+                            return
+                        }
+                        let newTask = OCKTask(id: "Test", title: "Test", carePlanUUID: uuid, schedule: schedule)
+                    }
+                    Button("Help") {
+                        print("Help Tapped!")
                     }
                 }
-            }, label: {
-                Text("Save Profile")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300, height: 50)
-            })
-            .background(Color(.green))
-            .cornerRadius(15)
-
-            // Notice that "action" is a closure (which is essentially
-            // a function as argument like we discussed in class)
-            Button(action: {
-                Task {
-                    await loginViewModel.logout()
-                }
-            }, label: {
-                Text("Log Out")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300, height: 50)
-            })
-            .background(Color(.red))
-            .cornerRadius(15)
-        }.onReceive(viewModel.$patient) { patient in
+            }
+        }
+        .onReceive(viewModel.$patient) { patient in
             if let currentFirstName = patient?.name.givenName {
                 firstName = currentFirstName
             }
