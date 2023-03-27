@@ -15,6 +15,7 @@ struct ProfileView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
+    // @ObservedObject var careKitTaskViewModel: CareKitTaskViewModel
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Date()
@@ -77,26 +78,8 @@ struct ProfileView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
-                    Button("Add a Task") {
-                        let thisMorning = Calendar.current.startOfDay(for: Date())
-                        let aFewDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: thisMorning)!
-                        let beforeBreakfast = Calendar.current.date(byAdding: .hour, value: 8, to: aFewDaysAgo)!
-                        let afterLunch = Calendar.current.date(byAdding: .hour, value: 14, to: aFewDaysAgo)!
-
-                        let schedule = OCKSchedule(composing: [
-                            OCKScheduleElement(start: beforeBreakfast,
-                                               end: nil,
-                                               interval: DateComponents(day: 1)),
-
-                            OCKScheduleElement(start: afterLunch,
-                                               end: nil,
-                                               interval: DateComponents(day: 2))
-                        ])
-                        guard let uuid = try? await Utility.getRemoteClockUUID() else {
-                            Logger.profile.error("Could not get remote uuid for this user")
-                            return
-                        }
-                        let newTask = OCKTask(id: "Test", title: "Test", carePlanUUID: uuid, schedule: schedule)
+                    NavigationLink(destination: CareKitTaskView()) {
+                        Text("Add Task")
                     }
                     Button("Help") {
                         print("Help Tapped!")
