@@ -23,6 +23,9 @@ struct CareKitTaskView: View {
                         Text(item.rawValue)
                     }
                 }
+                DatePicker("Time", selection: $viewModel.hourAndMinute, displayedComponents: .hourAndMinute)
+                DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
+                // DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
                 Section("Task") {
                     Button("Add") {
                         Task {

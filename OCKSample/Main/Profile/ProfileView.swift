@@ -81,9 +81,6 @@ struct ProfileView: View {
                     NavigationLink(destination: CareKitTaskView()) {
                         Text("Add Task")
                     }
-                    Button("Help") {
-                        print("Help Tapped!")
-                    }
                 }
             }
         }

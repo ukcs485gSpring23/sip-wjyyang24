@@ -13,6 +13,9 @@ import os.log
 class CareKitTaskViewModel: ObservableObject {
     @Published var title = ""
     @Published var instructions = ""
+    @Published var startDate = Date()
+    @Published var endDate = Date()
+    @Published var hourAndMinute = Date()
     @Published var selectedCard: CareKitCard = .button
     @Published var error: AppError? {
         willSet {
@@ -29,12 +32,13 @@ class CareKitTaskViewModel: ObservableObject {
             return
         }
         let uniqueId = UUID().uuidString // Create a unique id for each task
+        let calendar = Calendar.current
         var task = OCKTask(id: uniqueId,
                            title: title,
                            carePlanUUID: nil,
-                           schedule: .dailyAtTime(hour: 0,
-                                                  minutes: 0,
-                                                  start: Date(),
+                           schedule: .dailyAtTime(hour: calendar.component(.hour, from: hourAndMinute),
+                                                  minutes: calendar.component(.minute, from: hourAndMinute),
+                                                  start: startDate,
                                                   end: nil,
                                                   text: nil))
         task.instructions = instructions
@@ -55,12 +59,15 @@ class CareKitTaskViewModel: ObservableObject {
             return
         }
         let uniqueId = UUID().uuidString // Create a unique id for each task
+        let calendar = Calendar.current
         var healthKitTask = OCKHealthKitTask(id: uniqueId,
                                              title: title,
                                              carePlanUUID: nil,
-                                             schedule: .dailyAtTime(hour: 0,
-                                                                    minutes: 0,
-                                                                    start: Date(),
+                                             // swiftlint:disable:next line_length
+                                             schedule: .dailyAtTime(hour: calendar.component(.hour, from: hourAndMinute),
+                                             // swiftlint:disable:next line_length
+                                                                    minutes: calendar.component(.minute, from: hourAndMinute),
+                                                                    start: startDate,
                                                                     end: nil,
                                                                     text: nil),
                                              healthKitLinkage: .init(quantityIdentifier: .electrodermalActivity,
