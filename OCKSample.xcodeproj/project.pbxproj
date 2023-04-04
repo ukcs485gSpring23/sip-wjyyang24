@@ -89,6 +89,7 @@
 		91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924224A4C42E00925D4D /* Assets.xcassets */; };
 		91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924524A4C42E00925D4D /* Preview Assets.xcassets */; };
 		91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A971238C29DCBAD200FB4707 /* CustomContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A971238B29DCBAD200FB4707 /* CustomContactViewController.swift */; };
 		A9AFF92329CA48A000DBEC1F /* OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AFF92229CA48A000DBEC1F /* OCKTask.swift */; };
 		A9AFF92429CA48A000DBEC1F /* OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AFF92229CA48A000DBEC1F /* OCKTask.swift */; };
 		A9AFF92729CA4D4D00DBEC1F /* CareKitTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AFF92629CA4D4D00DBEC1F /* CareKitTaskView.swift */; };
@@ -214,6 +215,7 @@
 		91AD924524A4C42E00925D4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		91AD924724A4C42E00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		A971238B29DCBAD200FB4707 /* CustomContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContactViewController.swift; sourceTree = "<group>"; };
 		A9AFF92229CA48A000DBEC1F /* OCKTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKTask.swift; sourceTree = "<group>"; };
 		A9AFF92629CA4D4D00DBEC1F /* CareKitTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitTaskView.swift; sourceTree = "<group>"; };
 		A9AFF92829CA4DA100DBEC1F /* CareKitTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitTaskViewModel.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				7036E4CD256E9A0C006E9A3C /* ContactView.swift */,
+				A971238B29DCBAD200FB4707 /* CustomContactViewController.swift */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -817,6 +820,7 @@
 				918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */,
 				E0E2611E29B9B22B00453580 /* DimensionStyle.swift in Sources */,
 				91693822271B897200A634ED /* Utility.swift in Sources */,
+				A971238C29DCBAD200FB4707 /* CustomContactViewController.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
 				70077597252228E900EC0EDA /* User.swift in Sources */,

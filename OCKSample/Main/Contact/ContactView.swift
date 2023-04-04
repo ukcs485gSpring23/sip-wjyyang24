@@ -29,7 +29,7 @@ struct ContactView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        OCKContactsListViewController(storeManager: appDelegate.storeManager)
+        CustomContactViewController(storeManager: appDelegate.storeManager)
     }
 }
 
