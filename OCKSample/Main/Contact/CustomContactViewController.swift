@@ -89,7 +89,7 @@ class CustomContactViewController: OCKListViewController {
             Logger.contact.error("Not logged in: \(error)")
             return
         } */
-        
+
         guard (try? await User.current()) != nil else {
             Logger.contact.error("User not logged in")
             return
