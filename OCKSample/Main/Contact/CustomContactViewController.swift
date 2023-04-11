@@ -81,14 +81,6 @@ class CustomContactViewController: OCKListViewController {
 
     @MainActor
     func fetchContacts() async throws {
-        /*
-        do {
-            let user = try await User.current()
-            Logger.contact.debug("User is \(user)")
-        } catch {
-            Logger.contact.error("Not logged in: \(error)")
-            return
-        } */
 
         guard (try? await User.current()) != nil else {
             Logger.contact.error("User not logged in")
@@ -107,10 +99,13 @@ class CustomContactViewController: OCKListViewController {
             return
         }
 
-        // TODOx: Modify this filter to not show the contact info for this user
         let filterdContacts = convertedContacts.filter { convertedContact in
-            Logger.contact.info("Contact filtered: \(convertedContact.id)")
-            return true
+            if convertedContact.id == personUUIDString {
+                Logger.contact.info("Contact filtered: \(convertedContact.id)")
+                return false
+            } else {
+                return true
+            }
         }
 
         self.clearAndKeepSearchBar()
@@ -240,6 +235,7 @@ extension CustomContactViewController: CNContactPickerDelegate {
 
             var contactsToAdd = [OCKAnyContact]()
             for newContact in newContacts {
+                // swiftlint:disable:next for_where
                 if self.allContacts.first(where: { $0.id == newContact.id }) == nil {
                     contactsToAdd.append(newContact)
                 }
