@@ -46,6 +46,21 @@ extension OCKHealthKitPassthroughStore {
     */
     func populateSampleData(_ patientUUID: UUID? = nil) async throws {
 
+        var carePlanUUID = UUID()
+        var query = OCKCarePlanQuery(for: Date())
+        if let unwrappedPatientUUID = patientUUID {
+            query.patientUUIDs.append(unwrappedPatientUUID)
+            guard let appDelegate = AppDelegateKey.defaultValue,
+                  let foundCarePlan = try await appDelegate.store?.fetchCarePlans(query: query),
+                  let carePlan = foundCarePlan.first else {
+                Logger.ockStore.error("Could not find care plan with patient id \"\(unwrappedPatientUUID)\".")
+                return
+            }
+            carePlanUUID = carePlan.uuid
+        } else {
+            Logger.ockStore.error("No valid patientUUID")
+        }
+
         let schedule = OCKSchedule.dailyAtTime(
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
             duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
@@ -53,7 +68,7 @@ extension OCKHealthKitPassthroughStore {
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
             title: "Steps",
-            carePlanUUID: nil,
+            carePlanUUID: carePlanUUID,
             schedule: schedule,
             healthKitLinkage: OCKHealthKitLinkage(
                 quantityIdentifier: .stepCount,
