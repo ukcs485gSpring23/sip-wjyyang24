@@ -12,10 +12,10 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @Environment(\.tintColor) private var tintColor
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
-    // @ObservedObject var careKitTaskViewModel: CareKitTaskViewModel
 
     var body: some View {
         NavigationView {
@@ -97,7 +97,7 @@ struct ProfileView: View {
                             CareKitTaskView()
                         }
                     }
-        }
+                }
             }
             .sheet(isPresented: $viewModel.isPresentingImagePicker) {
                 ImagePicker(image: $viewModel.profileUIImage)
@@ -109,6 +109,9 @@ struct ProfileView: View {
                                 viewModel.isShowingSaveAlert = false
                              }))
             }
+        }
+        .onReceive(appDelegate.$isFirstTimeLogin) { _ in
+            viewModel.updateStoreManager()
         }
     }
 }

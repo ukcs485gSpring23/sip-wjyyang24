@@ -101,7 +101,6 @@ class LoginViewModel: ObservableObject {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            Utility.requestHealthKitPermissions()
         }
 
         // Setup installation to receive push notifications
@@ -134,6 +133,14 @@ class LoginViewModel: ObservableObject {
         guard let patient = savedPatient as? OCKPatient else {
             throw AppError.couldntCast
         }
+
+        // Added code to create a contact for the respective signed up user
+        let newContact = OCKContact(id: remoteUUID.uuidString,
+                                    name: newPatient.name,
+                                    carePlanUUID: nil)
+
+        // This is new contact that has never been saved before
+        _ = try await storeManager.store.addAnyContact(newContact)
 
         try await appDelegate.store?.populateSampleData(patient.uuid) // not in pr
         try await appDelegate.healthKitStore.populateSampleData()

@@ -42,7 +42,7 @@ extension OCKHealthKitPassthroughStore {
     }
 
     /*
-     TODOx: You need to tie an OCPatient and CarePlan to these tasks,
+     TODOx: You need to tie an OCPatient
     */
     func populateSampleData(_ patientUUID: UUID? = nil) async throws {
 
