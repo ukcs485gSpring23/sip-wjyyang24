@@ -95,7 +95,14 @@ class CustomContactViewController: OCKListViewController {
          it's an "instance method" or "type method". If you are trying to copy the
          method to this file, you are using the code incorrectly. Be
          sure to understand the difference between a type method and instance method.
+         
+         checkIfOnboardingIsComplete is a type method, as it is called on the Utility class, and not on an instance
+         of a class. You can also tell that it is a type method as it is declared with the class keyword
          */
+        guard await Utility.checkIfOnboardingIsComplete() else {
+            Logger.contact.error("User has not completed onboarding")
+            return
+        }
 
         var query = OCKContactQuery(for: Date())
         query.sortDescriptors.append(.familyName(ascending: true))

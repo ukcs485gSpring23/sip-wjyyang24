@@ -137,7 +137,7 @@ class CareViewController: OCKDailyPageViewController {
         let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
 
         Task {
-            guard await checkIfOnboardingIsComplete() else {
+            guard await Utility.checkIfOnboardingIsComplete() else {
                 let onboardSurvey = Onboard()
                 let onboardCard = OCKSurveyTaskViewController(taskID: Onboard.identifier(),
                                                               eventQuery: OCKEventQuery(for: date),

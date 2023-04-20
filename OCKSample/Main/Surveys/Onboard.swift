@@ -34,9 +34,9 @@ extension Onboard {
         )
 
         welcomeInstructionStep.title = "Welcome!"
-        welcomeInstructionStep.detailText = "Thank you for joining our study. Tap Next to learn more before signing up."
-        welcomeInstructionStep.image = UIImage(named: "welcome-image")
-        welcomeInstructionStep.imageContentMode = .scaleAspectFill
+        welcomeInstructionStep.detailText = "Thank you for downloading our app. Tap Next to begin signing up."
+        welcomeInstructionStep.image = UIImage(systemName: "sun.haze")
+        welcomeInstructionStep.imageContentMode = .scaleAspectFit
 
         // The Informed Consent Instruction step.
         let studyOverviewInstructionStep = ORKInstructionStep(
@@ -44,10 +44,10 @@ extension Onboard {
         )
 
         studyOverviewInstructionStep.title = "Before You Join"
-        studyOverviewInstructionStep.iconImage = UIImage(systemName: "checkmark.seal.fill")
+        studyOverviewInstructionStep.iconImage = UIImage(systemName: "flag.checkered.2.crossed")
 
         let heartBodyItem = ORKBodyItem(
-            text: "The study will ask you to share some of your health data.",
+            text: "The app will ask you to share some of your health data.",
             detailText: nil,
             image: UIImage(systemName: "heart.fill"),
             learnMoreItem: nil,
@@ -55,9 +55,9 @@ extension Onboard {
         )
 
         let completeTasksBodyItem = ORKBodyItem(
-            text: "You will be asked to complete various tasks over the duration of the study.",
+            text: "You will be asked to complete various health related challenges during app usage.",
             detailText: nil,
-            image: UIImage(systemName: "checkmark.circle.fill"),
+            image: UIImage(systemName: "medal.fill"),
             learnMoreItem: nil,
             bodyItemStyle: .image
         )
@@ -97,8 +97,8 @@ extension Onboard {
         // TODOx: Set these to HealthKit info you want to display
         // by default.
         let healthKitTypesToWrite: Set<HKSampleType> = [
-            .quantityType(forIdentifier: .bodyMassIndex)!,
-            .quantityType(forIdentifier: .activeEnergyBurned)!,
+            .quantityType(forIdentifier: .dietaryWater)!,
+            .quantityType(forIdentifier: .stepCount)!,
             .workoutType()
         ]
 
@@ -106,7 +106,9 @@ extension Onboard {
             .characteristicType(forIdentifier: .dateOfBirth)!,
             .workoutType(),
             .quantityType(forIdentifier: .appleStandTime)!,
-            .quantityType(forIdentifier: .appleExerciseTime)!
+            .quantityType(forIdentifier: .appleExerciseTime)!,
+            .quantityType(forIdentifier: .heartRate)!,
+            .quantityType(forIdentifier: .stepCount)!
         ]
 
         let healthKitPermissionType = ORKHealthKitPermissionType(
