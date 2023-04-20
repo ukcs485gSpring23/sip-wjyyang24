@@ -90,8 +90,12 @@ class ProfileViewModel: ObservableObject {
             }
         }
     }
-    @Published var contact: OCKContact?
-    private(set) var storeManager: OCKSynchronizedStoreManager
+    private var contact: OCKContact?
+    private(set) var storeManager: OCKSynchronizedStoreManager {
+        didSet {
+            reloadViewModel()
+        }
+    }
     private(set) var alertMessage = "All changs saved successfully!"
 
     // MARK: Private read/write properties
@@ -101,10 +105,12 @@ class ProfileViewModel: ObservableObject {
     init(storeManager: OCKSynchronizedStoreManager? = nil) {
         self.storeManager = storeManager ?? StoreManagerKey.defaultValue
         reloadViewModel()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadViewModel(_:)),
-                                               name: Notification.Name(rawValue: Constants.shouldRefreshView),
-                                               object: nil)
+    }
+
+    // MARK: Helpers (public)
+
+    func updateStoreManager() {
+        self.storeManager = StoreManagerKey.defaultValue
     }
 
     // MARK: Helpers (private)
@@ -112,7 +118,7 @@ class ProfileViewModel: ObservableObject {
         cancellables = []
     }
 
-    @objc private func reloadViewModel(_ notification: Notification? = nil) {
+    private func reloadViewModel() {
         Task {
             _ = await findAndObserveCurrentProfile()
         }
@@ -138,19 +144,19 @@ class ProfileViewModel: ObservableObject {
         queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
 
         do {
-            guard let appDelegate = AppDelegateKey.defaultValue,
-                  let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
-                  let currentPatient = foundPatient.first else {
+            let foundPatient = try await storeManager.store.fetchAnyPatients(query: queryForCurrentPatient)
+            guard let currentPatient = foundPatient.first as? OCKPatient else {
                 // swiftlint:disable:next line_length
                 Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
                 return
             }
             self.observePatient(currentPatient)
+
             // Query the contact also so the user can edit
             var queryForCurrentContact = OCKContactQuery(for: Date())
             queryForCurrentContact.ids = [uuid.uuidString]
-            guard let foundContact = try await appDelegate.store?.fetchContacts(query: queryForCurrentContact),
-                let currentContact = foundContact.first else {
+            let foundContact = try await storeManager.store.fetchAnyContacts(query: queryForCurrentContact)
+            guard let currentContact = foundContact.first as? OCKContact else {
                 // swiftlint:disable:next line_length
                 Logger.profile.error("Error: Could not find contact with id \"\(uuid)\". It's possible they have never been saved.")
                 return
@@ -170,46 +176,6 @@ class ProfileViewModel: ObservableObject {
                 self?.patient = $0 as? OCKPatient
             }
             .store(in: &cancellables)
-    }
-
-    @MainActor
-    private func findAndObserveCurrentContact() async {
-        guard let uuid = (try? await Utility.getRemoteClockUUID()) else {
-            Logger.profile.error("Could not get remote uuid for this user.")
-            return
-        }
-        clearSubscriptions()
-
-        // Build query to search for OCKPatient
-        // swiftlint:disable:next line_length
-        var queryForCurrentPatient = OCKPatientQuery(for: Date()) // This makes the query for the current version of Patient
-        queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
-        do {
-            guard let appDelegate = AppDelegateKey.defaultValue,
-                  let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
-                let currentPatient = foundPatient.first else {
-                // swiftlint:disable:next line_length
-                Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
-                return
-            }
-            self.observePatient(currentPatient)
-
-            // Query the contact also so the user can edit
-            var queryForCurrentContact = OCKContactQuery(for: Date())
-            queryForCurrentContact.ids = [uuid.uuidString]
-            guard let foundContact = try await appDelegate.store?.fetchContacts(query: queryForCurrentContact),
-                let currentContact = foundContact.first else {
-                // swiftlint:disable:next line_length
-                Logger.profile.error("Error: Could not find contact with id \"\(uuid)\". It's possible they have never been saved.")
-                return
-            }
-            self.observeContact(currentContact)
-
-            try? await fetchProfilePicture()
-        } catch {
-            // swiftlint:disable:next line_length
-            Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error.localizedDescription)")
-        }
     }
 
     @MainActor

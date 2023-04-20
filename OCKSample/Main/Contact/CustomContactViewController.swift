@@ -65,6 +65,7 @@ class CustomContactViewController: OCKListViewController {
     @objc private func presentContactsListViewController() {
 
         let contactPicker = CNContactPickerViewController()
+        contactPicker.view.tintColor = self.view.tintColor
         contactPicker.delegate = self
         contactPicker.predicateForEnablingContact = NSPredicate(
           format: "phoneNumbers.@count > 0")
@@ -84,6 +85,22 @@ class CustomContactViewController: OCKListViewController {
 
         guard (try? await User.current()) != nil else {
             Logger.contact.error("User not logged in")
+            return
+        }
+
+        /*
+         TODOx: You should not show any contacts if your user has not completed the
+         onboarding task yet. There was a method added recently in Utility.swift to
+         assist with this. Use this method here and write a comment and state if
+         it's an "instance method" or "type method". If you are trying to copy the
+         method to this file, you are using the code incorrectly. Be
+         sure to understand the difference between a type method and instance method.
+         
+         checkIfOnboardingIsComplete is a type method, as it is called on the Utility class, and not on an instance
+         of a class. You can also tell that it is a type method as it is declared with the class keyword
+         */
+        guard await Utility.checkIfOnboardingIsComplete() else {
+            Logger.contact.error("User has not completed onboarding")
             return
         }
 
