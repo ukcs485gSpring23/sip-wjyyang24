@@ -142,8 +142,9 @@ class LoginViewModel: ObservableObject {
         // This is new contact that has never been saved before
         _ = try await storeManager.store.addAnyContact(newContact)
 
-        try await appDelegate.store?.populateSampleData(patient.uuid) // not in pr
-        try await appDelegate.healthKitStore.populateSampleData()
+        try await appDelegate.store?.populateSampleData(patient.uuid)
+        try await appDelegate.healthKitStore?.populateSampleData(patient.uuid)
+
         appDelegate.parseRemote.automaticallySynchronizes = true
 
         // Post notification to sync
