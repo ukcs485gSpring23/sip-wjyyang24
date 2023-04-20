@@ -252,7 +252,6 @@ extension CustomContactViewController: CNContactPickerDelegate {
 
             var contactsToAdd = [OCKAnyContact]()
             for newContact in newContacts {
-                // swiftlint:disable:next for_where
                 if self.allContacts.first(where: { $0.id == newContact.id }) == nil {
                     contactsToAdd.append(newContact)
                 }

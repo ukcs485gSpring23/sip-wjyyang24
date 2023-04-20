@@ -89,6 +89,8 @@
 		91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924224A4C42E00925D4D /* Assets.xcassets */; };
 		91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924524A4C42E00925D4D /* Preview Assets.xcassets */; };
 		91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A93F99E129F1D56E005B7967 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93F99E029F1D56E005B7967 /* InsightsView.swift */; };
+		A93F99E329F1D941005B7967 /* InsightsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93F99E229F1D941005B7967 /* InsightsViewModel.swift */; };
 		A971238C29DCBAD200FB4707 /* CustomContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A971238B29DCBAD200FB4707 /* CustomContactViewController.swift */; };
 		A9AFF92329CA48A000DBEC1F /* OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AFF92229CA48A000DBEC1F /* OCKTask.swift */; };
 		A9AFF92429CA48A000DBEC1F /* OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AFF92229CA48A000DBEC1F /* OCKTask.swift */; };
@@ -234,6 +236,8 @@
 		91AD924524A4C42E00925D4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		91AD924724A4C42E00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		A93F99E029F1D56E005B7967 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		A93F99E229F1D941005B7967 /* InsightsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewModel.swift; sourceTree = "<group>"; };
 		A971238B29DCBAD200FB4707 /* CustomContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContactViewController.swift; sourceTree = "<group>"; };
 		A9AFF92229CA48A000DBEC1F /* OCKTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKTask.swift; sourceTree = "<group>"; };
 		A9AFF92629CA4D4D00DBEC1F /* CareKitTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitTaskView.swift; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 				70221F2728D7809800971195 /* MainTabView.swift */,
 				7036E4D2256EBE35006E9A3C /* MainView.swift */,
 				70308878258272CD00FFABB6 /* Care */,
+				A93F99DF29F1D509005B7967 /* Insights */,
 				7030887D258272F400FFABB6 /* Contact */,
 				7030887E2582731300FFABB6 /* Login */,
 				E0276E5129F0FFC700981823 /* Onboarding */,
@@ -542,6 +547,15 @@
 				91AD924524A4C42E00925D4D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A93F99DF29F1D509005B7967 /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				A93F99E029F1D56E005B7967 /* InsightsView.swift */,
+				A93F99E229F1D941005B7967 /* InsightsViewModel.swift */,
+			);
+			path = Insights;
 			sourceTree = "<group>";
 		};
 		A9AFF92529CA4D1700DBEC1F /* CareKitTasks */ = {
@@ -884,6 +898,7 @@
 				70F921A827CA9A3A00368CEC /* CustomStylerKey.swift in Sources */,
 				70221F3428D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift in Sources */,
 				9169381D271B650700A634ED /* ColorStyler.swift in Sources */,
+				A93F99E329F1D941005B7967 /* InsightsViewModel.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
 				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,
 				70F921B027CABED600368CEC /* LocalSyncSessionDelegate.swift in Sources */,
@@ -902,6 +917,7 @@
 				918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */,
 				E0E2611E29B9B22B00453580 /* DimensionStyle.swift in Sources */,
 				E0276E5D29F10F3300981823 /* RangeOfMotion.swift in Sources */,
+				A93F99E129F1D56E005B7967 /* InsightsView.swift in Sources */,
 				91693822271B897200A634ED /* Utility.swift in Sources */,
 				A971238C29DCBAD200FB4707 /* CustomContactViewController.swift in Sources */,
 				E0276E4C29F0FF2100981823 /* Survey.swift in Sources */,

@@ -106,7 +106,7 @@ extension OCKStore {
     func populateSampleData(_ patientUUID: UUID? = nil) async throws {
 
         try await populateCarePlans(patientUUID: patientUUID)
-        
+
         var carePlanUUID = UUID()
         var query = OCKCarePlanQuery(for: Date())
         if let unwrappedPatientUUID = patientUUID {
