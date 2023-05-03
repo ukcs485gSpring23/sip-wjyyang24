@@ -106,7 +106,7 @@ extension OCKStore {
     func populateSampleData(_ patientUUID: UUID? = nil) async throws {
 
         try await populateCarePlans(patientUUID: patientUUID)
-        
+
         var carePlanUUID = UUID()
         var query = OCKCarePlanQuery(for: Date())
         if let unwrappedPatientUUID = patientUUID {
@@ -165,6 +165,15 @@ extension OCKStore {
         nausea.asset = "bed.double"
         nausea.card = .button
 
+        var repetition = OCKTask(id: TaskID.repetition,
+                                 title: "Track your repetitions",
+                                 carePlanUUID: nil,
+                                 schedule: nauseaSchedule)
+        repetition.impactsAdherence = false
+        repetition.instructions = "Input how many reps you completed."
+        repetition.asset = "repeat.circle"
+        repetition.card = .custom
+
         let kegelElement = OCKScheduleElement(start: beforeBreakfast,
                                               end: nil,
                                               interval: DateComponents(day: 2))
@@ -190,7 +199,7 @@ extension OCKStore {
         stretch.card = .instruction
 
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
-        try await addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
+        try await addTasksIfNotPresent([nausea, doxylamine, kegels, stretch, repetition])
         try await addOnboardingTask(carePlanUUIDs[.health])
         try await addSurveyTasks(carePlanUUIDs[.checkIn])
 

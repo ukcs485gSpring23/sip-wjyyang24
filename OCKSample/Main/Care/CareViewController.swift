@@ -38,7 +38,6 @@ import CareKitUI
 import os.log
 import ResearchKit
 
-// swiftlint:disable type_body_length
 class CareViewController: OCKDailyPageViewController {
 
     private var isSyncing = false
@@ -158,13 +157,16 @@ class CareViewController: OCKDailyPageViewController {
                 if Calendar.current.isDate(date, inSameDayAs: Date()) {
                     // Add a non-CareKit view into the list
                     let tipTitle = "Benefits of exercising"
-                    let tipText = "Learn how activity can promote a healthy pregnancy."
-                    let tipView = TipView()
-                    tipView.headerView.titleLabel.text = tipTitle
-                    tipView.headerView.detailLabel.text = tipText
-                    tipView.imageView.image = UIImage(named: "exercise.jpg")
-                    tipView.customStyle = CustomStylerKey.defaultValue
-                    listViewController.appendView(tipView, animated: false)
+                    // let tipText = "Learn how activity can promote a healthy pregnancy."
+                    // TODOx: 5 - Need to use correct initializer instead of setting properties
+                    let customFeaturedView = CustomFeaturedContentView()
+                    // swiftlint:disable:next line_length
+                    customFeaturedView.url = URL(string: "https://www.uky.edu/hr/work-life-and-well-being/physical-activity")
+                    customFeaturedView.imageView.image = UIImage(named: "exercise.jpg")
+                    customFeaturedView.label.text = tipTitle
+                    customFeaturedView.label.textColor = .white
+                    customFeaturedView.customStyle = CustomStylerKey.defaultValue
+                    listViewController.appendView(customFeaturedView, animated: false)
                 }
             }
 
@@ -213,7 +215,19 @@ class CareViewController: OCKDailyPageViewController {
             return [OCKInstructionsTaskViewController(task: task,
                                                      eventQuery: .init(for: date),
                                                      storeManager: self.storeManager)]
-
+        case .custom:
+            /*
+             TODOx: Example of showing how to use your custom card. This
+             should be placed correctly for the final to receive credit.
+             This card currently only shows when numericProgress is selected,
+             you should add the card to the switch statement properly to
+             make it show on purpose when the card type is selected.
+            */
+            let viewModel = CustomCardViewModel(task: task,
+                                                eventQuery: .init(for: date),
+                                                storeManager: self.storeManager)
+            let customCard = CustomCardView(viewModel: viewModel)
+            return [customCard.formattedHostingController()]
         case .simple:
             /*
              Since the kegel task is only scheduled every other day, there will be cases
@@ -232,59 +246,14 @@ class CareViewController: OCKDailyPageViewController {
                 storeManager: self.storeManager)]
 
         case .button:
-            if task.id == TaskID.nausea {
-                var cards = [UIViewController]()
-                // dynamic gradient colors
-                let nauseaGradientStart = UIColor { traitCollection -> UIColor in
-                    return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
-                }
-                let nauseaGradientEnd = UIColor { traitCollection -> UIColor in
-                    return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1)
-                }
-
-                // Create a plot comparing nausea to medication adherence.
-                let nauseaDataSeries = OCKDataSeriesConfiguration(
-                    taskID: TaskID.nausea,
-                    legendTitle: "Nausea",
-                    gradientStartColor: nauseaGradientStart,
-                    gradientEndColor: nauseaGradientEnd,
-                    markerSize: 10,
-                    eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-                let doxylamineDataSeries = OCKDataSeriesConfiguration(
-                    taskID: TaskID.doxylamine,
-                    legendTitle: "Doxylamine",
-                    gradientStartColor: .systemGray2,
-                    gradientEndColor: .systemGray,
-                    markerSize: 10,
-                    eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-                let insightsCard = OCKCartesianChartViewController(
-                    plotType: .bar,
-                    selectedDate: date,
-                    configurations: [nauseaDataSeries, doxylamineDataSeries],
-                    storeManager: self.storeManager)
-
-                insightsCard.chartView.headerView.titleLabel.text = "Nausea & Doxylamine Intake"
-                insightsCard.chartView.headerView.detailLabel.text = "This Week"
-                insightsCard.chartView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
-                cards.append(insightsCard)
-
-                /*
-                 Also create a card that displays a single event.
-                 The event query passed into the initializer specifies that only
-                 today's log entries should be displayed by this log task view controller.
-                 */
-                let nauseaCard = OCKButtonLogTaskViewController(task: task,
-                                                                eventQuery: .init(for: date),
-                                                                storeManager: self.storeManager)
-                cards.append(nauseaCard)
-                return cards
-            } else {
-                return [OCKButtonLogTaskViewController(task: task,
-                                                       eventQuery: .init(for: date),
-                                                       storeManager: self.storeManager)]
-            }
+            /*
+             Also create a card that displays a single event.
+             The event query passed into the initializer specifies that only
+             today's log entries should be displayed by this log task view controller.
+             */
+            return [OCKButtonLogTaskViewController(task: task,
+                                                   eventQuery: .init(for: date),
+                                                   storeManager: self.storeManager)]
         case .labeledValue:
             let view = LabeledValueTaskView(
                 task: task,

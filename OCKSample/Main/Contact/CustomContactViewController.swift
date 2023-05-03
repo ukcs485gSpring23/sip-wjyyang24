@@ -251,11 +251,10 @@ extension CustomContactViewController: CNContactPickerDelegate {
             let newContacts = contacts.compactMap { convertDeviceContacts($0) }
 
             var contactsToAdd = [OCKAnyContact]()
-            for newContact in newContacts {
-                // swiftlint:disable:next for_where
-                if self.allContacts.first(where: { $0.id == newContact.id }) == nil {
+            for newContact in newContacts where self.allContacts.first(where: { $0.id == newContact.id }) == nil {
+                // if self.allContacts.first(where: { $0.id == newContact.id }) == nil {
                     contactsToAdd.append(newContact)
-                }
+                // }
             }
 
             let immutableContactsToAdd = contactsToAdd
