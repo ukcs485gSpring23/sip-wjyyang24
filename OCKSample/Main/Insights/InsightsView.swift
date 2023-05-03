@@ -8,12 +8,17 @@
 
 import SwiftUI
 
-struct InsightsView: View {
-    @StateObject var viewModel = InsightsViewModel()
+struct InsightsView: UIViewControllerRepresentable {
+    @State var storeManager = StoreManagerKey.defaultValue
 
-    var body: some View {
-        Text(viewModel.text)
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let viewController = InsightsViewController(storeManager: storeManager)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        return navigationController
     }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType,
+                                context: Context) {}
 }
 
 struct InsightsView_Previews: PreviewProvider {

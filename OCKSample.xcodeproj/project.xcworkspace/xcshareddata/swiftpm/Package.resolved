@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/CareKitUtilities.git",
       "state" : {
-        "revision" : "ca65485fd95f40ae1bc27f61ee062b2688ad2554",
-        "version" : "0.0.1"
+        "revision" : "c84aace8150e60b876889e0cd30d82309f1cc9f1",
+        "version" : "0.0.3"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/Parse-Swift.git",
       "state" : {
-        "revision" : "088e42071dcebae970e5d94e3d7d0f34cf300f02",
-        "version" : "5.4.1"
+        "revision" : "0e409291a0a81b47dbea722a48aba61ef9ddafcd",
+        "version" : "5.4.3"
       }
     },
     {
