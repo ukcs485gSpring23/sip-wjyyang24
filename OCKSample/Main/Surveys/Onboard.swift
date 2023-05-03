@@ -20,13 +20,6 @@ struct Onboard: Surveyable {
 
 #if canImport(ResearchKit)
 extension Onboard {
-    /*
-     TODOx: Modify the onboarding so it properly represents the
-     usecase of your application. Changes should be made to
-     each of the steps in this type method. For example, you
-     should change: title, detailText, image, and imageContentMode,
-     and learnMoreItem.
-     */
     func createSurvey() -> ORKTask {
         // The Welcome Instruction step.
         let welcomeInstructionStep = ORKInstructionStep(
@@ -94,8 +87,6 @@ extension Onboard {
         webViewStep.showSignatureAfterContent = true
 
         // The Request Permissions step.
-        // TODOx: Set these to HealthKit info you want to display
-        // by default.
         let healthKitTypesToWrite: Set<HKSampleType> = [
             .quantityType(forIdentifier: .dietaryWater)!,
             .quantityType(forIdentifier: .stepCount)!,

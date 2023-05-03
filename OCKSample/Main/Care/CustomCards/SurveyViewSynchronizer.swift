@@ -19,7 +19,8 @@ final class SurveyViewSynchronizer: OCKSurveyTaskViewSynchronizer {
 
         super.updateView(view, context: context)
 
-        if let event = context.viewModel.first?.first, event.outcome != nil {
+        if let event = context.viewModel.first?.first, event.outcome != nil,
+           let surveyTask = event.task as? OCKTask {
             view.instructionsLabel.isHidden = false
             /*
              TODOx: You need to modify this so the instuction label shows
@@ -29,13 +30,25 @@ final class SurveyViewSynchronizer: OCKSurveyTaskViewSynchronizer {
              Look at how the CareViewController differentiates between
              surveys.
              */
-            let pain = event.answer(kind: CheckIn.painItemIdentifier)
-            let sleep = event.answer(kind: CheckIn.sleepItemIdentifier)
 
-            view.instructionsLabel.text = """
+            switch surveyTask.title {
+            case "Check In":
+                let pain = event.answer(kind: CheckIn.painItemIdentifier)
+                let sleep = event.answer(kind: CheckIn.sleepItemIdentifier)
+
+                view.instructionsLabel.text = """
                 Pain: \(Int(pain))
                 Sleep: \(Int(sleep)) hours
                 """
+            case "Range of Motion":
+                let range = event.answer(kind: #keyPath(ORKRangeOfMotionResult.range))
+
+                view.instructionsLabel.text = """
+                Range of Motion: \(range)º
+                """
+            default:
+                view.instructionsLabel.isHidden = true
+            }
         } else {
             view.instructionsLabel.isHidden = true
         }
