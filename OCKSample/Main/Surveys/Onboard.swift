@@ -90,13 +90,14 @@ extension Onboard {
         let healthKitTypesToWrite: Set<HKSampleType> = [
             .quantityType(forIdentifier: .dietaryWater)!,
             .quantityType(forIdentifier: .stepCount)!,
+            .quantityType(forIdentifier: .flightsClimbed)!,
             .workoutType()
         ]
 
         let healthKitTypesToRead: Set<HKObjectType> = [
             .characteristicType(forIdentifier: .dateOfBirth)!,
             .workoutType(),
-            .quantityType(forIdentifier: .appleStandTime)!,
+            .quantityType(forIdentifier: .flightsClimbed)!,
             .quantityType(forIdentifier: .appleExerciseTime)!,
             .quantityType(forIdentifier: .heartRate)!,
             .quantityType(forIdentifier: .stepCount)!

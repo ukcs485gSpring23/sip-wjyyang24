@@ -114,9 +114,13 @@ enum TaskID {
     static let kegels = "kegels"
     static let steps = "steps"
     static let repetition = "repetition"
+    static let water = "water"
+    static let flightsClimbed = "flights climbed"
+    static let breakfast = "breakfast"
 
     static var ordered: [String] {
-        [Self.steps, Self.repetition, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+        [Self.steps, Self.repetition, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea,
+         Self.water, Self.flightsClimbed, Self.breakfast]
     }
 }
 

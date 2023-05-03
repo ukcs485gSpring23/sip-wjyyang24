@@ -11,6 +11,7 @@ import Contacts
 import os.log
 import ParseSwift
 import ParseCareKit
+import SwiftUI
 
 extension OCKStore {
 
@@ -155,7 +156,6 @@ extension OCKStore {
                                text: "Anytime throughout the day",
                                targetValues: [], duration: .allDay)
             ])
-
         var nausea = OCKTask(id: TaskID.nausea,
                              title: "Track your nausea",
                              carePlanUUID: carePlanUUID,
@@ -165,26 +165,42 @@ extension OCKStore {
         nausea.asset = "bed.double"
         nausea.card = .button
 
+        let waterSchedule = OCKSchedule(composing: [
+            OCKScheduleElement(start: beforeBreakfast,
+                               end: nil,
+                               interval: DateComponents(day: 1),
+                               text: "Aim for 8 cups or more each day!",
+                               targetValues: [OCKOutcomeValue(8, units: "Cups")],
+                               duration: .allDay)
+            ])
+        var water = OCKTask(id: TaskID.water,
+                            title: "Stay hydrated 💧",
+                            carePlanUUID: carePlanUUID,
+                            schedule: waterSchedule)
+        water.impactsAdherence = false
+        water.instructions = "Log every time you drink a cup of water."
+        water.asset = "water-drop"
+        water.card = .button
+
         var repetition = OCKTask(id: TaskID.repetition,
                                  title: "Track your repetitions",
-                                 carePlanUUID: nil,
+                                 carePlanUUID: carePlanUUID,
                                  schedule: nauseaSchedule)
         repetition.impactsAdherence = false
         repetition.instructions = "Input how many reps you completed."
         repetition.asset = "repeat.circle"
         repetition.card = .custom
 
-        let kegelElement = OCKScheduleElement(start: beforeBreakfast,
-                                              end: nil,
-                                              interval: DateComponents(day: 2))
-        let kegelSchedule = OCKSchedule(composing: [kegelElement])
-        var kegels = OCKTask(id: TaskID.kegels,
-                             title: "Kegel Exercises",
+        let breakfastSchedule = OCKSchedule.dailyAtTime(hour: 5, minutes: 0,
+                                                        start: Date(), end: nil,
+                                                        text: "Start the day right, don't skip breakfast!",
+                                                        duration: .hours(6))
+        var breakfast = OCKTask(id: TaskID.breakfast,
+                             title: "Eat Breakfast 🍳",
                              carePlanUUID: carePlanUUID,
-                             schedule: kegelSchedule)
-        kegels.impactsAdherence = true
-        kegels.instructions = "Perform kegel exercies"
-        kegels.card = .simple
+                             schedule: breakfastSchedule)
+        breakfast.impactsAdherence = true
+        breakfast.card = .simple
 
         let stretchElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
@@ -199,7 +215,7 @@ extension OCKStore {
         stretch.card = .instruction
 
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
-        try await addTasksIfNotPresent([nausea, doxylamine, kegels, stretch, repetition])
+        try await addTasksIfNotPresent([nausea, doxylamine, stretch, repetition, water, breakfast])
         try await addOnboardingTask(carePlanUUIDs[.health])
         try await addSurveyTasks(carePlanUUIDs[.checkIn])
 
