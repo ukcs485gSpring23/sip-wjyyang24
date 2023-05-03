@@ -158,14 +158,11 @@ class CareViewController: OCKDailyPageViewController {
                     // Add a non-CareKit view into the list
                     let tipTitle = "Benefits of exercising"
                     // let tipText = "Learn how activity can promote a healthy pregnancy."
-                    // TODOx: 5 - Need to use correct initializer instead of setting properties
-                    let customFeaturedView = CustomFeaturedContentView()
                     // swiftlint:disable:next line_length
-                    customFeaturedView.url = URL(string: "https://www.uky.edu/hr/work-life-and-well-being/physical-activity")
-                    customFeaturedView.imageView.image = UIImage(named: "exercise.jpg")
-                    customFeaturedView.label.text = tipTitle
-                    customFeaturedView.label.textColor = .white
-                    customFeaturedView.customStyle = CustomStylerKey.defaultValue
+                    let customFeaturedView = CustomFeaturedContentView(url: "https://www.uky.edu/hr/work-life-and-well-being/physical-activity",
+                                                                       image: UIImage(named: "exercise.jpg"),
+                                                                       text: tipTitle,
+                                                                       textColor: .white)
                     listViewController.appendView(customFeaturedView, animated: false)
                 }
             }
