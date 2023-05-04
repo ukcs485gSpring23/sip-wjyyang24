@@ -75,12 +75,12 @@ struct LoginView: View {
                     .padding()
                     .background(.white)
                     .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                    .shadow(radius: 10.0)
                 SecureField("Password", text: $password)
                     .padding()
                     .background(.white)
                     .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                    .shadow(radius: 10.0)
 
                 switch signupLoginSegmentValue {
                 case 1:
@@ -88,19 +88,19 @@ struct LoginView: View {
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
-                        .shadow(radius: 10.0, x: 20, y: 10)
+                        .shadow(radius: 10.0)
 
                     TextField("Last Name", text: $lastName)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
-                        .shadow(radius: 10.0, x: 20, y: 10)
+                        .shadow(radius: 10.0)
 
                     TextField("Email", text: $email)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
-                        .shadow(radius: 10.0, x: 20, y: 10)
+                        .shadow(radius: 10.0)
 
                 default:
                     EmptyView()
@@ -146,8 +146,9 @@ struct LoginView: View {
                         .frame(width: 300)
                 }
             })
-            .background(Color(.green))
+            .background(Color(tintColor))
             .cornerRadius(15)
+            .shadow(radius: 10)
 
             Button(action: {
                 Task {
@@ -167,6 +168,7 @@ struct LoginView: View {
             })
             .background(Color(.lightGray))
             .cornerRadius(15)
+            .shadow(radius: 10)
 
             // If an error occurs show it on the screen
             if let error = viewModel.loginError {

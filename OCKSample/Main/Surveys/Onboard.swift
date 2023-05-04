@@ -28,8 +28,8 @@ extension Onboard {
 
         welcomeInstructionStep.title = "Welcome!"
         welcomeInstructionStep.detailText = "Thank you for downloading our app. Tap Next to begin signing up."
-        welcomeInstructionStep.image = UIImage(systemName: "sun.haze")
-        welcomeInstructionStep.imageContentMode = .scaleAspectFit
+        welcomeInstructionStep.image = UIImage(named: "ripples_light.jpg")
+        welcomeInstructionStep.imageContentMode = .scaleAspectFill
 
         // The Informed Consent Instruction step.
         let studyOverviewInstructionStep = ORKInstructionStep(

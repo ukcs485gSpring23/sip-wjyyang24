@@ -125,47 +125,43 @@ extension OCKStore {
 
         let thisMorning = Calendar.current.startOfDay(for: Date())
         guard let aFewDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: thisMorning),
-              let beforeBreakfast = Calendar.current.date(byAdding: .hour, value: 8, to: aFewDaysAgo),
-              let afterLunch = Calendar.current.date(byAdding: .hour, value: 14, to: aFewDaysAgo) else {
+              let beforeBreakfast = Calendar.current.date(byAdding: .hour, value: 8, to: aFewDaysAgo) else {
             Logger.ockStore.error("Could not unwrap calendar. Should never hit")
             throw AppError.couldntBeUnwrapped
         }
 
-        let schedule = OCKSchedule(composing: [
-            OCKScheduleElement(start: beforeBreakfast,
-                               end: nil,
-                               interval: DateComponents(day: 1)),
-
-            OCKScheduleElement(start: afterLunch,
-                               end: nil,
-                               interval: DateComponents(day: 2))
-        ])
-
-        var doxylamine = OCKTask(id: TaskID.doxylamine,
-                                 title: "Take Doxylamine",
-                                 carePlanUUID: carePlanUUID,
-                                 schedule: schedule)
-        doxylamine.instructions = "Take 25mg of doxylamine when you experience nausea."
-        doxylamine.asset = "pills.fill"
-        doxylamine.card = .button
-        doxylamine.graph = .nausea
-
-        let nauseaSchedule = OCKSchedule(composing: [
-            OCKScheduleElement(start: beforeBreakfast,
-                               end: nil,
-                               interval: DateComponents(day: 1),
-                               text: "Anytime throughout the day",
-                               targetValues: [], duration: .allDay)
-            ])
-        var nausea = OCKTask(id: TaskID.nausea,
-                             title: "Track your nausea",
+        let fruitElement = OCKScheduleElement(start: beforeBreakfast,
+                                               end: nil,
+                                               interval: DateComponents(day: 1),
+                                               text: "Eat a fruit",
+                                               targetValues: [], duration: .allDay)
+        let veggiesLunchElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 1),
+                                                text: "Eat veggies (lunch)",
+                                                targetValues: [], duration: .allDay)
+        let veggiesDinnerElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 1),
+                                                text: "Eat veggies (dinner)",
+                                                targetValues: [], duration: .allDay)
+        let proteinElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 1),
+                                                text: "Eat a protein every meal",
+                                                targetValues: [], duration: .allDay)
+        let dietSchedule = OCKSchedule(composing: [fruitElement, veggiesLunchElement,
+                                                    veggiesDinnerElement, proteinElement])
+        var diet = OCKTask(id: TaskID.diet,
+                             title: "Eat a balanced diet 🥗",
                              carePlanUUID: carePlanUUID,
-                             schedule: nauseaSchedule)
-        nausea.impactsAdherence = false
-        nausea.instructions = "Tap the button below anytime you experience nausea."
-        nausea.asset = "bed.double"
-        nausea.card = .button
-        nausea.graph = .bar
+                             schedule: dietSchedule)
+        diet.impactsAdherence = false
+        diet.instructions = "Aim to eat from all of the food groups!"
+        diet.asset = "diet.jpg"
+        diet.card = .checklist
+        diet.graph = .line
+        diet.groupIdentifier = "Food Groups"
 
         let waterSchedule = OCKSchedule(composing: [
             OCKScheduleElement(start: beforeBreakfast,
@@ -186,10 +182,16 @@ extension OCKStore {
         water.graph = .bar
         water.groupIdentifier = "Cups" // unit for data series legend
 
+        let repElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 1),
+                                                text: "Repititions",
+                                                targetValues: [], duration: .allDay)
+        let repSchedule = OCKSchedule(composing: [repElement])
         var repetition = OCKTask(id: TaskID.repetition,
                                  title: "Track your repetitions",
                                  carePlanUUID: carePlanUUID,
-                                 schedule: nauseaSchedule)
+                                 schedule: repSchedule)
         repetition.impactsAdherence = false
         repetition.instructions = "Input how many reps you completed."
         repetition.asset = "repeat.circle"
@@ -248,7 +250,8 @@ extension OCKStore {
         beginnerWorkout.groupIdentifier = "Sets completed" // unit for data series legend
 
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
-        try await addTasksIfNotPresent([nausea, doxylamine, stretch, repetition, water, breakfast, beginnerWorkout])
+        try await addTasksIfNotPresent([repetition, stretch, diet, breakfast,
+                                        beginnerWorkout, water])
         try await addOnboardingTask(carePlanUUIDs[.health])
         try await addSurveyTasks(carePlanUUIDs[.checkIn])
 
@@ -322,7 +325,7 @@ extension OCKStore {
 
         var checkInTask = OCKTask(
             id: CheckIn.identifier(),
-            title: "Check In",
+            title: "Check In 🎟️",
             carePlanUUID: carePlanUUID,
             schedule: checkInSchedule
         )

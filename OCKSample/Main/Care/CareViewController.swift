@@ -160,7 +160,7 @@ class CareViewController: OCKDailyPageViewController {
                     // let tipText = "Learn how activity can promote a healthy pregnancy."
                     // swiftlint:disable:next line_length
                     let customFeaturedView = CustomFeaturedContentView(url: "https://www.cdc.gov/diabetes/library/features/3-Steps-Building-Healthy-Habit.html",
-                                                                       image: UIImage(named: "oranges"),
+                                                                       image: UIImage(named: "featured_beach.jpg"),
                                                                        text: tipTitle,
                                                                        textColor: .white)
                     listViewController.appendView(customFeaturedView, animated: false)

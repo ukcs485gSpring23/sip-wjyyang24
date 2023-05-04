@@ -118,8 +118,6 @@ enum CarePlanID: String, CaseIterable, Identifiable {
 }
 
 enum TaskID {
-    static let doxylamine = "doxylamine"
-    static let nausea = "nausea"
     static let stretch = "stretch"
     static let steps = "steps"
     static let repetition = "repetition"
@@ -127,10 +125,11 @@ enum TaskID {
     static let flightsClimbed = "flights climbed"
     static let breakfast = "breakfast"
     static let beginnerWorkout = "beginner workout"
+    static let diet = "diet"
 
     static var ordered: [String] {
-        [Self.steps, Self.repetition, Self.doxylamine, Self.stretch, Self.nausea,
-         Self.water, Self.flightsClimbed, Self.breakfast, Self.beginnerWorkout]
+        [Self.steps, Self.repetition, Self.stretch, Self.water, Self.flightsClimbed,
+         Self.breakfast, Self.beginnerWorkout, Self.diet]
     }
 }
 

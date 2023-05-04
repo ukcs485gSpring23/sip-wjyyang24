@@ -160,42 +160,6 @@ class InsightsViewController: OCKListViewController {
 
             return [insightsCard]
 
-        case .nausea:
-            var cards = [UIViewController]()
-            // dynamic gradient colors
-            let nauseaGradientStart = TintColorFlipKey.defaultValue
-            let nauseaGradientEnd = TintColorKey.defaultValue
-
-            // Create a plot comparing nausea to medication adherence.
-            let nauseaDataSeries = OCKDataSeriesConfiguration(
-                taskID: TaskID.nausea,
-                legendTitle: "Nausea",
-                gradientStartColor: nauseaGradientStart,
-                gradientEndColor: nauseaGradientEnd,
-                markerSize: 10,
-                eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-            let doxylamineDataSeries = OCKDataSeriesConfiguration(
-                taskID: TaskID.doxylamine,
-                legendTitle: "Doxylamine",
-                gradientStartColor: .systemGray2,
-                gradientEndColor: .systemGray,
-                markerSize: 10,
-                eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-            let insightsCard = OCKCartesianChartViewController(
-                plotType: .bar,
-                selectedDate: date,
-                configurations: [nauseaDataSeries, doxylamineDataSeries],
-                storeManager: self.storeManager)
-
-            insightsCard.chartView.headerView.titleLabel.text = "Nausea & Doxylamine Intake"
-            insightsCard.chartView.headerView.detailLabel.text = "This Week"
-            insightsCard.chartView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
-            cards.append(insightsCard)
-
-            return cards
-
         case .bar:
             let barGradientStart = TintColorFlipKey.defaultValue
             let barGradientEnd = TintColorKey.defaultValue
