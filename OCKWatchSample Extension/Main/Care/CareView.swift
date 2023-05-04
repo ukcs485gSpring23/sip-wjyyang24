@@ -16,7 +16,7 @@ struct CareView: View {
 
     var body: some View {
         ScrollView {
-            SimpleTaskView(taskID: TaskID.kegels,
+            SimpleTaskView(taskID: TaskID.breakfast,
                            eventQuery: .init(for: Date()),
                            storeManager: appDelegate.storeManager)
             InstructionsTaskView(taskID: TaskID.stretch,

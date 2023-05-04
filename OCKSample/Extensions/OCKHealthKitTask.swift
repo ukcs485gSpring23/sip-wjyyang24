@@ -27,4 +27,22 @@ extension OCKHealthKitTask {
             userInfo?[Constants.card] = newValue.rawValue
         }
     }
+
+    var graph: GraphCard {
+        get {
+            guard let graphInfo = userInfo?[Constants.graph],
+                  let graphType = GraphCard(rawValue: graphInfo) else {
+                return .bar
+            }
+            return graphType // Saved graph type
+        }
+        set {
+            if userInfo == nil {
+                // Initialize userInfo with empty dictionary
+                userInfo = .init()
+            }
+            // Set the new card type
+            userInfo?[Constants.graph] = newValue.rawValue
+        }
+    }
 }

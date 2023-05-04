@@ -25,22 +25,32 @@ struct CareKitTaskView: View {
                 }
                 DatePicker("Time", selection: $viewModel.hourAndMinute, displayedComponents: .hourAndMinute)
                 DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
-                // DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
-                Section("Task") {
-                    Button("Add") {
+                DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
+                Section {
+                    Button {
                         Task {
                             await viewModel.addTask()
                         }
+                    } label: {
+                        Label("Add CareKit Task", systemImage: "note.text.badge.plus")
                     }
                 }
-                Section("HealthKitTask") {
-                    Button("Add") {
+                Section {
+                    Button {
                         Task {
                             await viewModel.addHealthKitTask()
                         }
+                    } label: {
+                        Label("Add HealthKit Task", systemImage: "note.text.badge.plus")
                     }
                 }
             }
+        }.alert(isPresented: $viewModel.isShowingAddedAlert) {
+            return Alert(title: Text("Update"),
+                         message: Text(viewModel.alertMessage),
+                         dismissButton: .default(Text("Ok"), action: {
+                            viewModel.isShowingAddedAlert = false
+                         }))
         }
     }
 }

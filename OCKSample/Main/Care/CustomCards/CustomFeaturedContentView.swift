@@ -18,18 +18,20 @@ class CustomFeaturedContentView: OCKFeaturedContentView {
         // See that this always calls the super
         super.init(imageOverlayStyle: imageOverlayStyle)
 
-        // TODOx: 1 - Need to become a "delegate" so we know when view is tapped.
+        self.delegate = self
     }
 
-    /*
-     TODOx: 4 - Modify this init to take: UIImage, a text string , and text color.
-     The initialize should set all of the respective properties.
-     */
     // A convenience initializer to make it easier to use our custom featured content
-    convenience init(url: String, imageOverlayStyle: UIUserInterfaceStyle = .unspecified) {
+    convenience init(url: String, imageOverlayStyle: UIUserInterfaceStyle = .unspecified, image: UIImage?,
+                     text: String, textColor: UIColor) {
         self.init(imageOverlayStyle: imageOverlayStyle)
-        // TODOx: 2 - Need to call the designated initializer
-        // TODOx: 3 - Need to turn the url string into a real URL using URL(string: String)
+        self.customStyle = CustomStylerKey.defaultValue
+        self.url = URL(string: url)
+        self.label.text = text
+        self.label.textColor = textColor
+        if let unwrappedImage = image {
+            self.imageView.image = unwrappedImage
+        }
     }
 }
 

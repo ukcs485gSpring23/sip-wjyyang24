@@ -41,34 +41,70 @@ extension OCKHealthKitPassthroughStore {
         }
     }
 
-    /*
-     TODOx: You need to tie an OCPatient
-    */
     func populateSampleData(_ patientUUID: UUID? = nil) async throws {
-
-        var carePlanUUID = UUID()
-        var query = OCKCarePlanQuery(for: Date())
-        if let unwrappedPatientUUID = patientUUID {
-            query.patientUUIDs.append(unwrappedPatientUUID)
-            guard let appDelegate = AppDelegateKey.defaultValue,
-                  let foundCarePlan = try await appDelegate.store?.fetchCarePlans(query: query),
-                  let carePlan = foundCarePlan.first else {
-                Logger.ockStore.error("Could not find care plan with patient id \"\(unwrappedPatientUUID)\".")
-                return
-            }
-            carePlanUUID = carePlan.uuid
-        } else {
-            Logger.ockStore.error("No valid patientUUID")
-        }
+        let carePlanUUIDs = try await OCKStore.getCarePlanUUIDs()
+//        var carePlanUUID = UUID()
+//        var query = OCKCarePlanQuery(for: Date())
+//        if let unwrappedPatientUUID = patientUUID {
+//            query.patientUUIDs.append(unwrappedPatientUUID)
+//            guard let appDelegate = AppDelegateKey.defaultValue,
+//                  let foundCarePlan = try await appDelegate.store?.fetchCarePlans(query: query),
+//                  let carePlan = foundCarePlan.first else {
+//                Logger.ockStore.error("Could not find care plan with patient id \"\(unwrappedPatientUUID)\".")
+//                return
+//            }
+//            carePlanUUID = carePlan.uuid
+//        } else {
+//            Logger.ockStore.error("No valid patientUUID")
+//        }
 
         let schedule = OCKSchedule.dailyAtTime(
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
-            duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
+            duration: .hours(12), targetValues: [OCKOutcomeValue(10000.0, units: "Steps")])
+
+        let flightsSchedule = OCKSchedule.dailyAtTime(
+            hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
+            duration: .hours(12), targetValues: [OCKOutcomeValue(10, units: "Flights of Stairs")])
+
+        let heartRateSchedule = OCKSchedule.dailyAtTime(
+                hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
+                duration: .hours(12))
+
+        var flightsClimbed = OCKHealthKitTask(
+            id: TaskID.flightsClimbed,
+            title: "Flights Climbed 📈",
+            carePlanUUID: carePlanUUIDs[CarePlanID.health],
+            schedule: flightsSchedule,
+            healthKitLinkage: OCKHealthKitLinkage(
+                quantityIdentifier: .flightsClimbed,
+                quantityType: .cumulative,
+                unit: HKUnit.count()))
+        flightsClimbed.card = .numericProgress
+        flightsClimbed.graph = .bar
+        flightsClimbed.groupIdentifier = "Flights climbed" // unit for data series legend
+        flightsClimbed.instructions = "Climbing a flight of stairs can be great exercise"
+        flightsClimbed.asset = "nature_stairs.jpg"
+
+        var heartRate = OCKHealthKitTask(
+            id: TaskID.heartRate,
+            title: "Heart Rate ❤️",
+            carePlanUUID: carePlanUUIDs[CarePlanID.health],
+            schedule: heartRateSchedule,
+            healthKitLinkage: OCKHealthKitLinkage(
+                quantityIdentifier: .heartRate,
+                quantityType: .discrete,
+                unit: HKUnit.count().unitDivided(by: HKUnit.minute())))
+        heartRate.impactsAdherence = false
+        heartRate.card = .simple
+        heartRate.graph = .line
+        heartRate.groupIdentifier = "BPM"
+        heartRate.instructions = "Use breathing exercises to try and slow your heart rate"
+        heartRate.asset = "desk.jpg"
 
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
-            title: "Steps",
-            carePlanUUID: carePlanUUID,
+            title: "Steps 👣",
+            carePlanUUID: carePlanUUIDs[CarePlanID.health],
             schedule: schedule,
             healthKitLinkage: OCKHealthKitLinkage(
                 quantityIdentifier: .stepCount,
@@ -76,6 +112,11 @@ extension OCKHealthKitPassthroughStore {
                 unit: .count()))
         steps.asset = "figure.walk"
         steps.card = .numericProgress
-        try await addTasksIfNotPresent([steps])
+        steps.graph = .bar
+        steps.groupIdentifier = "Steps" // unit for data series legend
+        steps.instructions = "Aim for 10,000 steps each day!"
+        steps.asset = "dune_walk.jpg"
+
+        try await addTasksIfNotPresent([steps, heartRate, flightsClimbed])
     }
 }

@@ -20,13 +20,6 @@ struct Onboard: Surveyable {
 
 #if canImport(ResearchKit)
 extension Onboard {
-    /*
-     TODOx: Modify the onboarding so it properly represents the
-     usecase of your application. Changes should be made to
-     each of the steps in this type method. For example, you
-     should change: title, detailText, image, and imageContentMode,
-     and learnMoreItem.
-     */
     func createSurvey() -> ORKTask {
         // The Welcome Instruction step.
         let welcomeInstructionStep = ORKInstructionStep(
@@ -35,8 +28,8 @@ extension Onboard {
 
         welcomeInstructionStep.title = "Welcome!"
         welcomeInstructionStep.detailText = "Thank you for downloading our app. Tap Next to begin signing up."
-        welcomeInstructionStep.image = UIImage(systemName: "sun.haze")
-        welcomeInstructionStep.imageContentMode = .scaleAspectFit
+        welcomeInstructionStep.image = UIImage(named: "ripples_light.jpg")
+        welcomeInstructionStep.imageContentMode = .scaleAspectFill
 
         // The Informed Consent Instruction step.
         let studyOverviewInstructionStep = ORKInstructionStep(
@@ -94,19 +87,18 @@ extension Onboard {
         webViewStep.showSignatureAfterContent = true
 
         // The Request Permissions step.
-        // TODOx: Set these to HealthKit info you want to display
-        // by default.
         let healthKitTypesToWrite: Set<HKSampleType> = [
             .quantityType(forIdentifier: .dietaryWater)!,
             .quantityType(forIdentifier: .stepCount)!,
+            .quantityType(forIdentifier: .flightsClimbed)!,
+            .quantityType(forIdentifier: .heartRate)!,
             .workoutType()
         ]
 
         let healthKitTypesToRead: Set<HKObjectType> = [
             .characteristicType(forIdentifier: .dateOfBirth)!,
             .workoutType(),
-            .quantityType(forIdentifier: .appleStandTime)!,
-            .quantityType(forIdentifier: .appleExerciseTime)!,
+            .quantityType(forIdentifier: .flightsClimbed)!,
             .quantityType(forIdentifier: .heartRate)!,
             .quantityType(forIdentifier: .stepCount)!
         ]

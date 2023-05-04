@@ -80,6 +80,7 @@ enum Constants {
     static let userTypeKey = "userType"
     static let card = "card"
     static let survey = "survey"
+    static let graph = "graph"
 }
 
 enum MainViewPath {
@@ -98,25 +99,42 @@ enum CareKitCard: String, CaseIterable, Identifiable {
     case numericProgress = "Numeric Progress"
     case simple = "Simple"
     case survey = "Survey"
-    case custom = "Custom"
+    case plan = "Plan"
+    case sugaryDrinks = "Sugary Drinks"
+}
+
+enum GraphCard: String, CaseIterable, Identifiable {
+    var id: Self { self }
+//    case nausea = "Nausea"
+    case checkIn = "Check In"
+    case bar = "Bar"
+    case line = "Line"
+    case scatter = "Scatter"
 }
 
 enum CarePlanID: String, CaseIterable, Identifiable {
     var id: Self { self }
-    case health // Add custom id's for your Care Plans, these are examples
-    case checkIn
+    case health = "Health"
+    case checkIn = "Check In"
+    case productivity = "Productivity"
+    case diet = "Diet"
 }
 
 enum TaskID {
-    static let doxylamine = "doxylamine"
-    static let nausea = "nausea"
     static let stretch = "stretch"
-    static let kegels = "kegels"
     static let steps = "steps"
-    static let repetition = "repetition"
+    static let plan = "plan"
+    static let water = "water"
+    static let flightsClimbed = "flights climbed"
+    static let breakfast = "breakfast"
+    static let beginnerWorkout = "beginner workout"
+    static let diet = "diet"
+    static let sugaryDrinks = "sugary drinks"
+    static let heartRate = "heart rate"
 
     static var ordered: [String] {
-        [Self.steps, Self.repetition, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+        [Self.steps, Self.plan, Self.stretch, Self.water, Self.flightsClimbed, Self.breakfast,
+         Self.heartRate, Self.beginnerWorkout, Self.diet, Self.sugaryDrinks]
     }
 }
 

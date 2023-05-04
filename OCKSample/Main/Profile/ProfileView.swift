@@ -62,7 +62,7 @@ struct ProfileView: View {
                         .padding()
                         .frame(width: 300, height: 50)
                 })
-                .background(Color(.green))
+                .background(Color(tintColor))
                 .cornerRadius(15)
 
                 // Notice that "action" is a closure (which is essentially
