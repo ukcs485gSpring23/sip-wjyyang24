@@ -204,7 +204,7 @@ class CareViewController: OCKDailyPageViewController {
                 task: task,
                 eventQuery: OCKEventQuery(for: date),
                 storeManager: self.storeManager)
-                .padding([.vertical], 20)
+                .padding([.vertical], 35)
                 .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]
@@ -212,7 +212,7 @@ class CareViewController: OCKDailyPageViewController {
             return [OCKInstructionsTaskViewController(task: task,
                                                      eventQuery: .init(for: date),
                                                      storeManager: self.storeManager)]
-        case .custom:
+        case .plan:
             /*
              TODOx: Example of showing how to use your custom card. This
              should be placed correctly for the final to receive credit.
@@ -220,11 +220,17 @@ class CareViewController: OCKDailyPageViewController {
              you should add the card to the switch statement properly to
              make it show on purpose when the card type is selected.
             */
-            let viewModel = CustomCardViewModel(task: task,
+            let viewModel = PlanCardViewModel(task: task,
                                                 eventQuery: .init(for: date),
                                                 storeManager: self.storeManager)
-            let customCard = CustomCardView(viewModel: viewModel)
-            return [customCard.formattedHostingController()]
+            let planCard = PlanCardView(viewModel: viewModel)
+            return [planCard.formattedHostingController()]
+        case .sugaryDrinks:
+            let viewModel = SugaryDrinksCardViewModel(task: task,
+                                                    eventQuery: .init(for: date),
+                                                    storeManager: self.storeManager)
+            let sugaryDrinksCard = SugaryDrinksCardView(viewModel: viewModel)
+            return [sugaryDrinksCard.formattedHostingController()]
         case .simple:
             /*
              Since the kegel task is only scheduled every other day, there will be cases

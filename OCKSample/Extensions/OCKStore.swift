@@ -182,26 +182,44 @@ extension OCKStore {
         water.graph = .bar
         water.groupIdentifier = "Cups" // unit for data series legend
 
-        let repElement = OCKScheduleElement(start: beforeBreakfast,
+        let planElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
                                                 interval: DateComponents(day: 1),
-                                                text: "Repititions",
+                                                text: "",
                                                 targetValues: [], duration: .allDay)
-        let repSchedule = OCKSchedule(composing: [repElement])
-        var repetition = OCKTask(id: TaskID.repetition,
-                                 title: "Track your repetitions",
+        let planSchedule = OCKSchedule(composing: [planElement])
+        var plan = OCKTask(id: TaskID.plan,
+                                 title: "Plan out your day ☀️",
                                  carePlanUUID: carePlanUUID,
-                                 schedule: repSchedule)
-        repetition.impactsAdherence = false
-        repetition.instructions = "Input how many reps you completed."
-        repetition.asset = "repeat.circle"
-        repetition.card = .custom
-        repetition.graph = .bar
-        repetition.groupIdentifier = "Reps" // unit for data series legend
+                                 schedule: planSchedule)
+        plan.impactsAdherence = false
+        plan.instructions = "Use these resources to plan your day out!"
+        plan.asset = "planner.jpg"
+        plan.card = .plan
+        plan.graph = .scatter
+        plan.groupIdentifier = "Plan" // unit for data series legend
+
+        let sugaryDrinksElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 1),
+                                                text: "Drinks",
+                                                targetValues: [], duration: .allDay)
+        let sugaryDrinksSchedule = OCKSchedule(composing: [sugaryDrinksElement])
+        var sugaryDrinks = OCKTask(id: TaskID.sugaryDrinks,
+                                 title: "Track sugary drinks 🥤",
+                                 carePlanUUID: carePlanUUID,
+                                 schedule: sugaryDrinksSchedule)
+        sugaryDrinks.impactsAdherence = false
+        // swiftlint:disable:next line_length
+        sugaryDrinks.instructions = "Sugary drinks are unhealthy. Try to reduce your consumption by saving them for special occasions!"
+        sugaryDrinks.asset = "soda.jpg"
+        sugaryDrinks.card = .sugaryDrinks
+        sugaryDrinks.graph = .line
+        sugaryDrinks.groupIdentifier = "Drinks" // unit for data series legend
 
         let breakfastSchedule = OCKSchedule.dailyAtTime(hour: 5, minutes: 0,
                                                         start: Date(), end: nil,
-                                                        text: "Start the day right, don't skip breakfast!",
+                                                        text: "Eat Breakfast",
                                                         duration: .hours(6))
         var breakfast = OCKTask(id: TaskID.breakfast,
                              title: "Eat Breakfast 🍳",
@@ -211,6 +229,8 @@ extension OCKStore {
         breakfast.card = .simple
         breakfast.graph = .bar
         breakfast.groupIdentifier = "Breakfast Eaten" // unit for data series legend
+        breakfast.instructions = "Start the day right, don't skip breakfast!"
+        breakfast.asset = "avocado_toast.jpg"
 
         let stretchElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
@@ -225,6 +245,8 @@ extension OCKStore {
         stretch.card = .instruction
         stretch.graph = .scatter
         stretch.groupIdentifier = "Stretches" // unit for data series legend
+        stretch.instructions = "It's important to get up and stretch every once in a while"
+        stretch.asset = "yoga.jpg"
 
         let pushupsElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
@@ -248,9 +270,10 @@ extension OCKStore {
         beginnerWorkout.instructions = "An easy workout for beginners to do every 2 days. For more experienced users, create your own workout plan in the profile tab"
         beginnerWorkout.graph = .line
         beginnerWorkout.groupIdentifier = "Sets completed" // unit for data series legend
+        beginnerWorkout.asset = "barbell.jpg"
 
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
-        try await addTasksIfNotPresent([repetition, stretch, diet, breakfast,
+        try await addTasksIfNotPresent([stretch, sugaryDrinks, breakfast, plan, diet,
                                         beginnerWorkout, water])
         try await addOnboardingTask(carePlanUUIDs[.health])
         try await addSurveyTasks(carePlanUUIDs[.checkIn])

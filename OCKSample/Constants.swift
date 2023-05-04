@@ -99,12 +99,13 @@ enum CareKitCard: String, CaseIterable, Identifiable {
     case numericProgress = "Numeric Progress"
     case simple = "Simple"
     case survey = "Survey"
-    case custom = "Custom"
+    case plan = "Plan"
+    case sugaryDrinks = "Sugary Drinks"
 }
 
 enum GraphCard: String, CaseIterable, Identifiable {
     var id: Self { self }
-    case nausea = "Nausea"
+//    case nausea = "Nausea"
     case checkIn = "Check In"
     case bar = "Bar"
     case line = "Line"
@@ -120,16 +121,17 @@ enum CarePlanID: String, CaseIterable, Identifiable {
 enum TaskID {
     static let stretch = "stretch"
     static let steps = "steps"
-    static let repetition = "repetition"
+    static let plan = "plan"
     static let water = "water"
     static let flightsClimbed = "flights climbed"
     static let breakfast = "breakfast"
     static let beginnerWorkout = "beginner workout"
     static let diet = "diet"
+    static let sugaryDrinks = "sugary drinks"
 
     static var ordered: [String] {
-        [Self.steps, Self.repetition, Self.stretch, Self.water, Self.flightsClimbed,
-         Self.breakfast, Self.beginnerWorkout, Self.diet]
+        [Self.steps, Self.plan, Self.stretch, Self.water, Self.flightsClimbed,
+         Self.breakfast, Self.beginnerWorkout, Self.diet, Self.sugaryDrinks]
     }
 }
 

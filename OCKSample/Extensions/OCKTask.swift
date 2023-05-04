@@ -52,7 +52,7 @@ extension OCKTask {
         get {
             guard let graphInfo = userInfo?[Constants.graph],
                   let graphType = GraphCard(rawValue: graphInfo) else {
-                return .nausea // default graph CHANGE!!!
+                return .bar
             }
             return graphType // Saved graph type
         }
