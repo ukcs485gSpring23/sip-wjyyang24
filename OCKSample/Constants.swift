@@ -74,25 +74,67 @@ enum Constants {
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
     static let finishedAskingForPermission = "finishedAskingForPermission"
-    static let completedFirstSyncAfterLogin = "completedFirstSyncAfterLogin"
+    static let shouldRefreshView = "shouldRefreshView"
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
     static let userTypeKey = "userType"
+    static let card = "card"
+    static let survey = "survey"
+    static let graph = "graph"
 }
 
 enum MainViewPath {
     case tabs
 }
 
+enum CareKitCard: String, CaseIterable, Identifiable {
+    var id: Self { self }
+    case button = "Button"
+    case checklist = "Checklist"
+    case featured = "Featured"
+    case grid = "Grid"
+    case instruction = "Instruction"
+    case labeledValue = "Labeled Value"
+    case link = "Link"
+    case numericProgress = "Numeric Progress"
+    case simple = "Simple"
+    case survey = "Survey"
+    case plan = "Plan"
+    case sugaryDrinks = "Sugary Drinks"
+}
+
+enum GraphCard: String, CaseIterable, Identifiable {
+    var id: Self { self }
+//    case nausea = "Nausea"
+    case checkIn = "Check In"
+    case bar = "Bar"
+    case line = "Line"
+    case scatter = "Scatter"
+}
+
+enum CarePlanID: String, CaseIterable, Identifiable {
+    var id: Self { self }
+    case health = "Health"
+    case checkIn = "Check In"
+    case productivity = "Productivity"
+    case diet = "Diet"
+}
+
 enum TaskID {
-    static let doxylamine = "doxylamine"
-    static let nausea = "nausea"
     static let stretch = "stretch"
-    static let kegels = "kegels"
     static let steps = "steps"
+    static let plan = "plan"
+    static let water = "water"
+    static let flightsClimbed = "flights climbed"
+    static let breakfast = "breakfast"
+    static let beginnerWorkout = "beginner workout"
+    static let diet = "diet"
+    static let sugaryDrinks = "sugary drinks"
+    static let heartRate = "heart rate"
 
     static var ordered: [String] {
-        [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+        [Self.steps, Self.plan, Self.stretch, Self.water, Self.flightsClimbed, Self.breakfast,
+         Self.heartRate, Self.beginnerWorkout, Self.diet, Self.sugaryDrinks]
     }
 }
 
