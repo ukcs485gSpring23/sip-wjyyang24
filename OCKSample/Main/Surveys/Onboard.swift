@@ -91,6 +91,7 @@ extension Onboard {
             .quantityType(forIdentifier: .dietaryWater)!,
             .quantityType(forIdentifier: .stepCount)!,
             .quantityType(forIdentifier: .flightsClimbed)!,
+            .quantityType(forIdentifier: .heartRate)!,
             .workoutType()
         ]
 
@@ -98,7 +99,6 @@ extension Onboard {
             .characteristicType(forIdentifier: .dateOfBirth)!,
             .workoutType(),
             .quantityType(forIdentifier: .flightsClimbed)!,
-            .quantityType(forIdentifier: .appleExerciseTime)!,
             .quantityType(forIdentifier: .heartRate)!,
             .quantityType(forIdentifier: .stepCount)!
         ]

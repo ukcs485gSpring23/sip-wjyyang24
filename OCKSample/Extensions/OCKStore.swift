@@ -248,7 +248,7 @@ extension OCKStore {
                                                 interval: DateComponents(day: 1))
         let stretchSchedule = OCKSchedule(composing: [stretchElement])
         var stretch = OCKTask(id: TaskID.stretch,
-                              title: "Get Up and Stretch 🧍",
+                              title: "Get Up and Stretch 🕺",
                               carePlanUUID: carePlanUUIDs[CarePlanID.health],
                               schedule: stretchSchedule)
         stretch.impactsAdherence = true
@@ -404,7 +404,7 @@ extension OCKStore {
 
         var rangeOfMotionTask = OCKTask(
             id: RangeOfMotion.identifier(),
-            title: "Range Of Motion",
+            title: "Range Of Motion 🦿",
             carePlanUUID: carePlanUUID,
             schedule: rangeOfMotionCheckSchedule
         )

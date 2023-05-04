@@ -66,6 +66,10 @@ extension OCKHealthKitPassthroughStore {
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
             duration: .hours(12), targetValues: [OCKOutcomeValue(10, units: "Flights of Stairs")])
 
+        let heartRateSchedule = OCKSchedule.dailyAtTime(
+                hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
+                duration: .hours(12))
+
         var flightsClimbed = OCKHealthKitTask(
             id: TaskID.flightsClimbed,
             title: "Flights Climbed 📈",
@@ -80,6 +84,22 @@ extension OCKHealthKitPassthroughStore {
         flightsClimbed.groupIdentifier = "Flights climbed" // unit for data series legend
         flightsClimbed.instructions = "Climbing a flight of stairs can be great exercise"
         flightsClimbed.asset = "nature_stairs.jpg"
+
+        var heartRate = OCKHealthKitTask(
+            id: TaskID.heartRate,
+            title: "Heart Rate ❤️",
+            carePlanUUID: carePlanUUIDs[CarePlanID.health],
+            schedule: heartRateSchedule,
+            healthKitLinkage: OCKHealthKitLinkage(
+                quantityIdentifier: .heartRate,
+                quantityType: .discrete,
+                unit: HKUnit.count().unitDivided(by: HKUnit.minute())))
+        heartRate.impactsAdherence = false
+        heartRate.card = .simple
+        heartRate.graph = .line
+        heartRate.groupIdentifier = "BPM"
+        heartRate.instructions = "Use breathing exercises to try and slow your heart rate"
+        heartRate.asset = "desk.jpg"
 
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
@@ -97,6 +117,6 @@ extension OCKHealthKitPassthroughStore {
         steps.instructions = "Aim for 10,000 steps each day!"
         steps.asset = "dune_walk.jpg"
 
-        try await addTasksIfNotPresent([steps, flightsClimbed])
+        try await addTasksIfNotPresent([steps, heartRate, flightsClimbed])
     }
 }
