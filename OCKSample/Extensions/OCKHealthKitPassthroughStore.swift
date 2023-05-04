@@ -76,6 +76,8 @@ extension OCKHealthKitPassthroughStore {
                 quantityType: .cumulative,
                 unit: HKUnit.count()))
         flightsClimbed.card = .numericProgress
+        flightsClimbed.graph = .bar
+        flightsClimbed.groupIdentifier = "Flights climbed" // unit for data series legend
 
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
@@ -88,6 +90,9 @@ extension OCKHealthKitPassthroughStore {
                 unit: .count()))
         steps.asset = "figure.walk"
         steps.card = .numericProgress
+        steps.graph = .bar
+        steps.groupIdentifier = "Steps" // unit for data series legend
+
         try await addTasksIfNotPresent([steps, flightsClimbed])
     }
 }

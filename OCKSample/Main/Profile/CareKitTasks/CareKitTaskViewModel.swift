@@ -37,20 +37,6 @@ class CareKitTaskViewModel: ObservableObject {
         }
         let uniqueId = UUID().uuidString // Create a unique id for each task
         let calendar = Calendar.current
-//        let schedule: OCKSchedule
-//        if startDate < endDate {
-//            schedule = OCKSchedule.dailyAtTime(hour: calendar.component(.hour, from: hourAndMinute),
-//                                                  minutes: calendar.component(.minute, from: hourAndMinute),
-//                                                  start: startDate,
-//                                                  end: endDate,
-//                                                  text: nil)
-//        } else {
-//            schedule = OCKSchedule.dailyAtTime(hour: calendar.component(.hour, from: hourAndMinute),
-//                                                  minutes: calendar.component(.minute, from: hourAndMinute),
-//                                                  start: startDate,
-//                                                  end: nil,
-//                                                  text: nil)
-//        }
         var task: OCKTask
         guard startDate < endDate else {
             alertMessage = "Please make sure that the start date is before end date"

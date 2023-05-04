@@ -80,6 +80,7 @@ enum Constants {
     static let userTypeKey = "userType"
     static let card = "card"
     static let survey = "survey"
+    static let graph = "graph"
 }
 
 enum MainViewPath {
@@ -101,10 +102,19 @@ enum CareKitCard: String, CaseIterable, Identifiable {
     case custom = "Custom"
 }
 
+enum GraphCard: String, CaseIterable, Identifiable {
+    var id: Self { self }
+    case nausea = "Nausea"
+    case checkIn = "Check In"
+    case bar = "Bar"
+    case line = "Line"
+    case scatter = "Scatter"
+}
+
 enum CarePlanID: String, CaseIterable, Identifiable {
     var id: Self { self }
-    case health // Add custom id's for your Care Plans, these are examples
-    case checkIn
+    case health = "Health"
+    case checkIn = "Check In"
 }
 
 enum TaskID {

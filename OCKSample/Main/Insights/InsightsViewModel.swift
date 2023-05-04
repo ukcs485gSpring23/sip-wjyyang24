@@ -66,7 +66,7 @@ class InsightsViewController: OCKListViewController {
     @MainActor
     func fetchTasks(on date: Date) async -> [OCKAnyTask] {
         /**
-         TODOx: How would you modify this to fetch all of your tasks?
+         TODOx(DONE??): How would you modify this to fetch all of your tasks?
          Hint - you should look at the same function in CareViewController. If you
          understand queries and filters, this will be straightforward.
          */
@@ -74,11 +74,12 @@ class InsightsViewController: OCKListViewController {
         query.excludesTasksWithNoEvents = true
         do {
             let tasks = try await storeManager.store.fetchAnyTasks(query: query)
-            var taskIDs = TaskID.ordered
-            taskIDs.append(CheckIn().identifier())
-            let orderedTasks = taskIDs.compactMap { orderedTaskID in
-                tasks.first(where: { $0.id == orderedTaskID }) }
-            return orderedTasks
+//            var taskIDs = TaskID.ordered
+//            taskIDs.append(CheckIn().identifier())
+//            let orderedTasks = taskIDs.compactMap { orderedTaskID in
+//                tasks.first(where: { $0.id == orderedTaskID }) }
+//            return orderedTasks
+            return tasks.filter { $0.id != Onboard.identifier() }
         } catch {
             Logger.insights.error("\(error.localizedDescription, privacy: .public)")
             return []
@@ -106,12 +107,19 @@ class InsightsViewController: OCKListViewController {
          Hint - you should look at the same function in CareViewController
          to determine how to switch graphs on an enum.
          */
+        let graph: GraphCard!
+        if let task = task as? OCKTask {
+            graph = task.graph
+        } else if let task = task as? OCKHealthKitTask {
+            graph = task.graph
+        } else {
+            return nil
+        }
 
-        let survey = CheckIn() // Only used for example.
-        let surveyTaskID = survey.identifier() // Only used for example.
-        switch task.id {
-        case surveyTaskID:
-
+        switch graph {
+        case .checkIn:
+            let survey = CheckIn() // Only used for example.
+            let surveyTaskID = survey.identifier() // Only used for example.
             /*
              Note that that there's a small bug for the check in graph because
              it averages all of the "Pain + Sleep" hours. This okay for now. If
@@ -152,7 +160,7 @@ class InsightsViewController: OCKListViewController {
 
             return [insightsCard]
 
-        case TaskID.nausea:
+        case .nausea:
             var cards = [UIViewController]()
             // dynamic gradient colors
             let nauseaGradientStart = TintColorFlipKey.defaultValue
@@ -187,6 +195,78 @@ class InsightsViewController: OCKListViewController {
             cards.append(insightsCard)
 
             return cards
+
+        case .bar:
+            var barGradientStart = TintColorFlipKey.defaultValue
+            var barGradientEnd = TintColorKey.defaultValue
+
+            let dataSeries = OCKDataSeriesConfiguration(
+                taskID: task.id,
+                legendTitle: task.groupIdentifier ?? "Bar Chart",
+                gradientStartColor: barGradientStart,
+                gradientEndColor: barGradientEnd,
+                markerSize: 10,
+                eventAggregator: OCKEventAggregator.countOutcomeValues)
+
+            let insightsCard = OCKCartesianChartViewController(
+                plotType: .bar,
+                selectedDate: date,
+                configurations: [dataSeries],
+                storeManager: self.storeManager)
+
+            insightsCard.chartView.headerView.titleLabel.text = task.title
+            insightsCard.chartView.headerView.detailLabel.text = task.instructions
+            insightsCard.chartView.headerView.accessibilityLabel = task.title
+
+            return [insightsCard]
+
+        case .line:
+            let lineGradientStart = TintColorFlipKey.defaultValue
+            let lineGradientEnd = TintColorKey.defaultValue
+
+            let dataSeries = OCKDataSeriesConfiguration(
+                taskID: task.id,
+                legendTitle: task.groupIdentifier ?? "Line Chart",
+                gradientStartColor: lineGradientStart,
+                gradientEndColor: lineGradientEnd,
+                markerSize: 5,
+                eventAggregator: OCKEventAggregator.countOutcomeValues)
+
+            let insightsCard = OCKCartesianChartViewController(
+                plotType: .line,
+                selectedDate: date,
+                configurations: [dataSeries],
+                storeManager: self.storeManager)
+
+            insightsCard.chartView.headerView.titleLabel.text = task.title
+            insightsCard.chartView.headerView.detailLabel.text = task.instructions
+            insightsCard.chartView.headerView.accessibilityLabel = task.title
+
+            return [insightsCard]
+
+        case .scatter:
+            let scatterGradientStart = TintColorFlipKey.defaultValue
+            let scatterGradientEnd = TintColorKey.defaultValue
+
+            let dataSeries = OCKDataSeriesConfiguration(
+                taskID: task.id,
+                legendTitle: task.groupIdentifier ?? "Scatter Chart",
+                gradientStartColor: scatterGradientStart,
+                gradientEndColor: scatterGradientEnd,
+                markerSize: 5,
+                eventAggregator: OCKEventAggregator.countOutcomeValues)
+
+            let insightsCard = OCKCartesianChartViewController(
+                plotType: .scatter,
+                selectedDate: date,
+                configurations: [dataSeries],
+                storeManager: self.storeManager)
+
+            insightsCard.chartView.headerView.titleLabel.text = task.title
+            insightsCard.chartView.headerView.detailLabel.text = task.instructions
+            insightsCard.chartView.headerView.accessibilityLabel = task.title
+
+            return [insightsCard]
 
         default:
             return nil

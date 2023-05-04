@@ -148,6 +148,7 @@ extension OCKStore {
         doxylamine.instructions = "Take 25mg of doxylamine when you experience nausea."
         doxylamine.asset = "pills.fill"
         doxylamine.card = .button
+        doxylamine.graph = .nausea
 
         let nauseaSchedule = OCKSchedule(composing: [
             OCKScheduleElement(start: beforeBreakfast,
@@ -164,6 +165,7 @@ extension OCKStore {
         nausea.instructions = "Tap the button below anytime you experience nausea."
         nausea.asset = "bed.double"
         nausea.card = .button
+        nausea.graph = .bar
 
         let waterSchedule = OCKSchedule(composing: [
             OCKScheduleElement(start: beforeBreakfast,
@@ -181,6 +183,8 @@ extension OCKStore {
         water.instructions = "Log every time you drink a cup of water."
         water.asset = "water-drop"
         water.card = .button
+        water.graph = .bar
+        water.groupIdentifier = "Cups" // unit for data series legend
 
         var repetition = OCKTask(id: TaskID.repetition,
                                  title: "Track your repetitions",
@@ -190,6 +194,8 @@ extension OCKStore {
         repetition.instructions = "Input how many reps you completed."
         repetition.asset = "repeat.circle"
         repetition.card = .custom
+        repetition.graph = .bar
+        repetition.groupIdentifier = "Reps" // unit for data series legend
 
         let breakfastSchedule = OCKSchedule.dailyAtTime(hour: 5, minutes: 0,
                                                         start: Date(), end: nil,
@@ -201,6 +207,8 @@ extension OCKStore {
                              schedule: breakfastSchedule)
         breakfast.impactsAdherence = true
         breakfast.card = .simple
+        breakfast.graph = .bar
+        breakfast.groupIdentifier = "Breakfast Eaten" // unit for data series legend
 
         let stretchElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
@@ -213,6 +221,8 @@ extension OCKStore {
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
         stretch.card = .instruction
+        stretch.graph = .scatter
+        stretch.groupIdentifier = "Stretches" // unit for data series legend
 
         let pushupsElement = OCKScheduleElement(start: beforeBreakfast,
                                                 end: nil,
@@ -234,6 +244,8 @@ extension OCKStore {
         beginnerWorkout.card = .checklist
         // swiftlint:disable:next line_length
         beginnerWorkout.instructions = "An easy workout for beginners to do every 2 days. For more experienced users, create your own workout plan in the profile tab"
+        beginnerWorkout.graph = .line
+        beginnerWorkout.groupIdentifier = "Sets completed" // unit for data series legend
 
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
         try await addTasksIfNotPresent([nausea, doxylamine, stretch, repetition, water, breakfast, beginnerWorkout])
@@ -316,6 +328,7 @@ extension OCKStore {
         )
         checkInTask.card = .survey
         checkInTask.survey = .checkIn
+        checkInTask.graph = .checkIn
 
         let thisMorning = Calendar.current.startOfDay(for: Date())
 
@@ -361,6 +374,8 @@ extension OCKStore {
         )
         rangeOfMotionTask.card = .survey
         rangeOfMotionTask.survey = .rangeOfMotion
+        rangeOfMotionTask.graph = .bar
+        rangeOfMotionTask.groupIdentifier = "Range (º)" // unit for data series legend
 
         try await addTasksIfNotPresent([checkInTask, rangeOfMotionTask])
     }
