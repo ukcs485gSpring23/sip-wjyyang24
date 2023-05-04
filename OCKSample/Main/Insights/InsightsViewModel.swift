@@ -197,8 +197,8 @@ class InsightsViewController: OCKListViewController {
             return cards
 
         case .bar:
-            var barGradientStart = TintColorFlipKey.defaultValue
-            var barGradientEnd = TintColorKey.defaultValue
+            let barGradientStart = TintColorFlipKey.defaultValue
+            let barGradientEnd = TintColorKey.defaultValue
 
             let dataSeries = OCKDataSeriesConfiguration(
                 taskID: task.id,

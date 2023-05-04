@@ -34,20 +34,27 @@ struct LoginView: View {
     var body: some View {
         VStack {
             // Change the title to the name of your application
-            Text("Wesley's App")
+            Text("Sip 💦")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
+                .padding(100)
+                .shadow(radius: 10)
+                .background(
+                    Image("ripples_light.jpg")
+                        .resizable()
+                        .frame(width: 200, height: 200, alignment: .center)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color(.white), lineWidth: 0))
+                        .shadow(radius: 10)
+                        .padding()
+                )
+            Text("Build Healthy Habits Sip by Sip")
+                .font(.title3)
+                .fontWeight(.regular)
+                .foregroundColor(.white)
                 .padding()
                 .shadow(radius: 10)
-            // Change this image to something that represents your application
-            Image("nature.jpg")
-                .resizable()
-                .frame(width: 200, height: 200, alignment: .center)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color(.white), lineWidth: 4))
-                .shadow(radius: 10)
-                .padding()
 
             /*
              Example of how to do the picker here:
@@ -58,10 +65,10 @@ struct LoginView: View {
                 Text("Login").tag(0)
                 Text("Sign Up").tag(1)
             }
-            .pickerStyle(.segmented)
-            .background(Color(tintColorFlip))
-            .cornerRadius(20.0)
-            .padding()
+                   .pickerStyle(.segmented)
+                   .background(Color(tintColorFlip))
+                   .cornerRadius(20.0)
+                   .padding()
 
             VStack(alignment: .leading) {
                 TextField("Username", text: $usersname)
@@ -167,13 +174,6 @@ struct LoginView: View {
                     .foregroundColor(.red)
             }
             Spacer()
-
-            Text("App designed by Wesley Yang")
-                .font(.footnote)
-                .foregroundColor(.white)
-                .padding()
-                .shadow(radius: 10)
-
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color(tintColorFlip),
                                                                Color(tintColor)]),
