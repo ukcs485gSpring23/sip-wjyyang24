@@ -84,7 +84,7 @@ extension OCKHealthKitPassthroughStore {
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
             title: "Steps 👣",
-            carePlanUUID: carePlanUUIDs[CarePlanID.checkIn],
+            carePlanUUID: carePlanUUIDs[CarePlanID.health],
             schedule: schedule,
             healthKitLinkage: OCKHealthKitLinkage(
                 quantityIdentifier: .stepCount,

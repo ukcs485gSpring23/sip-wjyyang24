@@ -47,10 +47,20 @@ extension OCKStore {
         let checkInCarePlan = OCKCarePlan(id: CarePlanID.checkIn.rawValue,
                                           title: "Check in Care Plan",
                                           patientUUID: patientUUID)
+        let healthCarePlan = OCKCarePlan(id: CarePlanID.health.rawValue,
+                                         title: "Health Care Plan",
+                                         patientUUID: patientUUID)
+        let productivityCarePlan = OCKCarePlan(id: CarePlanID.productivity.rawValue,
+                                          title: "Productivity Care Plan",
+                                          patientUUID: patientUUID)
+        let dietCarePlan = OCKCarePlan(id: CarePlanID.diet.rawValue,
+                                          title: "Diet Care Plan",
+                                          patientUUID: patientUUID)
         try await AppDelegateKey
             .defaultValue?
             .storeManager
-            .addCarePlansIfNotPresent([checkInCarePlan],
+            .addCarePlansIfNotPresent([checkInCarePlan, healthCarePlan,
+                                       productivityCarePlan, dietCarePlan],
                                       patientUUID: patientUUID)
     }
 
@@ -108,20 +118,21 @@ extension OCKStore {
 
         try await populateCarePlans(patientUUID: patientUUID)
 
-        var carePlanUUID = UUID()
-        var query = OCKCarePlanQuery(for: Date())
-        if let unwrappedPatientUUID = patientUUID {
-            query.patientUUIDs.append(unwrappedPatientUUID)
-            guard let appDelegate = AppDelegateKey.defaultValue,
-                  let foundCarePlan = try await appDelegate.store?.fetchCarePlans(query: query),
-                  let carePlan = foundCarePlan.first else {
-                Logger.ockStore.error("Could not find care plan with patient id \"\(unwrappedPatientUUID)\".")
-                return
-            }
-            carePlanUUID = carePlan.uuid
-        } else {
-            Logger.ockStore.error("No valid patientUUID")
-        }
+//        var carePlanUUID = UUID()
+//        var query = OCKCarePlanQuery(for: Date())
+//        if let unwrappedPatientUUID = patientUUID {
+//            query.patientUUIDs.append(unwrappedPatientUUID)
+//            guard let appDelegate = AppDelegateKey.defaultValue,
+//                  let foundCarePlan = try await appDelegate.store?.fetchCarePlans(query: query),
+//                  let carePlan = foundCarePlan.first else {
+//                Logger.ockStore.error("Could not find care plan with patient id \"\(unwrappedPatientUUID)\".")
+//                return
+//            }
+//            carePlanUUID = carePlan.uuid
+//        } else {
+//            Logger.ockStore.error("No valid patientUUID")
+//        }
+        let carePlanUUIDs = try await OCKStore.getCarePlanUUIDs()
 
         let thisMorning = Calendar.current.startOfDay(for: Date())
         guard let aFewDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: thisMorning),
@@ -154,7 +165,7 @@ extension OCKStore {
                                                     veggiesDinnerElement, proteinElement])
         var diet = OCKTask(id: TaskID.diet,
                              title: "Eat a balanced diet 🥗",
-                             carePlanUUID: carePlanUUID,
+                             carePlanUUID: carePlanUUIDs[CarePlanID.diet],
                              schedule: dietSchedule)
         diet.impactsAdherence = false
         diet.instructions = "Aim to eat from all of the food groups!"
@@ -173,7 +184,7 @@ extension OCKStore {
             ])
         var water = OCKTask(id: TaskID.water,
                             title: "Stay hydrated 💧",
-                            carePlanUUID: carePlanUUID,
+                            carePlanUUID: carePlanUUIDs[CarePlanID.health],
                             schedule: waterSchedule)
         water.impactsAdherence = false
         water.instructions = "Log every time you drink a cup of water."
@@ -189,9 +200,9 @@ extension OCKStore {
                                                 targetValues: [], duration: .allDay)
         let planSchedule = OCKSchedule(composing: [planElement])
         var plan = OCKTask(id: TaskID.plan,
-                                 title: "Plan out your day ☀️",
-                                 carePlanUUID: carePlanUUID,
-                                 schedule: planSchedule)
+                           title: "Plan out your day ☀️",
+                           carePlanUUID: carePlanUUIDs[CarePlanID.productivity],
+                           schedule: planSchedule)
         plan.impactsAdherence = false
         plan.instructions = "Use these resources to plan your day out!"
         plan.asset = "planner.jpg"
@@ -206,9 +217,9 @@ extension OCKStore {
                                                 targetValues: [], duration: .allDay)
         let sugaryDrinksSchedule = OCKSchedule(composing: [sugaryDrinksElement])
         var sugaryDrinks = OCKTask(id: TaskID.sugaryDrinks,
-                                 title: "Track sugary drinks 🥤",
-                                 carePlanUUID: carePlanUUID,
-                                 schedule: sugaryDrinksSchedule)
+                                   title: "Track sugary drinks 🥤",
+                                   carePlanUUID: carePlanUUIDs[CarePlanID.diet],
+                                   schedule: sugaryDrinksSchedule)
         sugaryDrinks.impactsAdherence = false
         // swiftlint:disable:next line_length
         sugaryDrinks.instructions = "Sugary drinks are unhealthy. Try to reduce your consumption by saving them for special occasions!"
@@ -222,9 +233,9 @@ extension OCKStore {
                                                         text: "Eat Breakfast",
                                                         duration: .hours(6))
         var breakfast = OCKTask(id: TaskID.breakfast,
-                             title: "Eat Breakfast 🍳",
-                             carePlanUUID: carePlanUUID,
-                             schedule: breakfastSchedule)
+                                title: "Eat Breakfast 🍳",
+                                carePlanUUID: carePlanUUIDs[CarePlanID.diet],
+                                schedule: breakfastSchedule)
         breakfast.impactsAdherence = true
         breakfast.card = .simple
         breakfast.graph = .bar
@@ -238,7 +249,7 @@ extension OCKStore {
         let stretchSchedule = OCKSchedule(composing: [stretchElement])
         var stretch = OCKTask(id: TaskID.stretch,
                               title: "Get Up and Stretch 🧍",
-                              carePlanUUID: carePlanUUID,
+                              carePlanUUID: carePlanUUIDs[CarePlanID.health],
                               schedule: stretchSchedule)
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
@@ -263,7 +274,7 @@ extension OCKStore {
         let workoutSchedule = OCKSchedule(composing: [pushupsElement, situpsElement, squatsElement])
         var beginnerWorkout = OCKTask(id: TaskID.beginnerWorkout,
                                       title: "Beginner Workout 💪",
-                                      carePlanUUID: carePlanUUID,
+                                      carePlanUUID: carePlanUUIDs[CarePlanID.health],
                                       schedule: workoutSchedule)
         beginnerWorkout.card = .checklist
         // swiftlint:disable:next line_length
@@ -272,7 +283,6 @@ extension OCKStore {
         beginnerWorkout.groupIdentifier = "Sets completed" // unit for data series legend
         beginnerWorkout.asset = "barbell.jpg"
 
-        let carePlanUUIDs = try await Self.getCarePlanUUIDs()
         try await addTasksIfNotPresent([stretch, sugaryDrinks, breakfast, plan, diet,
                                         beginnerWorkout, water])
         try await addOnboardingTask(carePlanUUIDs[.health])
@@ -281,7 +291,7 @@ extension OCKStore {
         var contact1 = OCKContact(id: "jane",
                                   givenName: "Jane",
                                   familyName: "Daniels",
-                                  carePlanUUID: carePlanUUID)
+                                  carePlanUUID: carePlanUUIDs[.health])
         contact1.asset = "JaneDaniels"
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
@@ -299,7 +309,7 @@ extension OCKStore {
         }()
 
         var contact2 = OCKContact(id: "matthew", givenName: "Matthew",
-                                  familyName: "Reiff", carePlanUUID: carePlanUUID)
+                                  familyName: "Reiff", carePlanUUID: carePlanUUIDs[.health])
         contact2.asset = "MatthewReiff"
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."

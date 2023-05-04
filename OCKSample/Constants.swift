@@ -116,6 +116,8 @@ enum CarePlanID: String, CaseIterable, Identifiable {
     var id: Self { self }
     case health = "Health"
     case checkIn = "Check In"
+    case productivity = "Productivity"
+    case diet = "Diet"
 }
 
 enum TaskID {
