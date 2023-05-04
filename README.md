@@ -54,6 +54,21 @@ ParseCareKit synchronizes the following entities to Parse tables/classes using [
 What features were added by you, this should be descriptions of features added from the [Code](https://uk.instructure.com/courses/2030626/assignments/11151475) and [Demo](https://uk.instructure.com/courses/2030626/assignments/11151413) parts of the final. Feel free to add any figures that may help describe a feature. Note that there should be information here about how the OCKTask/OCKHealthTask's and OCKCarePlan's you added pertain to your app.
 -->
 ## Contributions/Features
+- Featured Tip View with link to tips on forming habits
+- Daily Sleep Amount and Quality Check-in
+- Daily Water Consumption Goals
+- Basic Beginner Workout Plan with 3 sets of exercises
+- Diet Goals for consuming important food groups
+- Encouragement to eat breakfast daily
+- Reminders to move and stretch
+- Step, Heart Rate, and Stair Trackers
+- Informative Card on planning your day
+- Sugary Drink Tracker
+- Insights View showing data on all aforementioned tasks
+- Full Contacts View with search and adding capabilities
+- Profile View with capabilities to edit user info and profile picture
+- Users can add their own tasks (CareKit and HealthKit)
+- 4 Care Plans to help organize tasks
 
 ## Final Checklist
 <!--
@@ -87,9 +102,9 @@ This is from the checkist from the final [Code](https://uk.instructure.com/cours
 <!--
 Describe at least 3 features you want to add in the future before releasing your app in the app-store
 -->
-1. feature one
-2. feature two
-3. feature three
+1. Social features for friendly competition
+2. Ability to delete tasks
+3. Ability to import images into tasks
 
 ## Challenges faced while developing
 <!--
