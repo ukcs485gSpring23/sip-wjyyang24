@@ -68,6 +68,8 @@ What features were added by you, this should be descriptions of features added f
 - Full Contacts View with search and adding capabilities
 - Profile View with capabilities to edit user info and profile picture
 - Users can add their own tasks (CareKit and HealthKit)
+- Visual Confirmation for user added tasks
+- Validation for user tasks properties
 - 4 Care Plans to help organize tasks
 
 ## Final Checklist
