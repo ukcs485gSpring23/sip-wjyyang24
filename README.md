@@ -1,7 +1,7 @@
 <!--
 Name of your final project
 -->
-# Sip
+# Sip 💦
 ![Swift](https://img.shields.io/badge/swift-5.5-brightgreen.svg) ![Xcode 13.2+](https://img.shields.io/badge/xcode-13.2%2B-blue.svg) ![iOS 15.0+](https://img.shields.io/badge/iOS-15.0%2B-blue.svg) ![watchOS 8.0+](https://img.shields.io/badge/watchOS-8.0%2B-blue.svg) ![CareKit 2.1+](https://img.shields.io/badge/CareKit-2.1%2B-red.svg) ![ci](https://github.com/netreconlab/CareKitSample-ParseCareKit/workflows/ci/badge.svg?branch=main)
 
 ## Description
@@ -110,6 +110,7 @@ Describe at least 3 features you want to add in the future before releasing your
 <!--
 Describe any challenges you faced with learning Swift, your baseline app, or adding features. You can describe how you overcame them.
 -->
+The most challenging aspect of development was familiarizing myself with the codebase, as the amount of files to keep track of was definitely more overwhelming than any project I've worked on so far. The frameworks used, such as CareKit and HealthKit were also confusing at first, but they provided valuable experience on how to work with real-world frameworks. Another one of the more challenging aspects of development were optionals, as I had never dealt with that concept before. I was initially very frustrated with them, as they would make seemingly simple pieces of code throw errors all over the place, however once I got used to the best methods for handling them, I can now see their value. 
 
 ## Setup Your Parse Server
 
