@@ -65,20 +65,10 @@ class InsightsViewController: OCKListViewController {
 
     @MainActor
     func fetchTasks(on date: Date) async -> [OCKAnyTask] {
-        /**
-         TODOx(DONE??): How would you modify this to fetch all of your tasks?
-         Hint - you should look at the same function in CareViewController. If you
-         understand queries and filters, this will be straightforward.
-         */
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         do {
             let tasks = try await storeManager.store.fetchAnyTasks(query: query)
-//            var taskIDs = TaskID.ordered
-//            taskIDs.append(CheckIn().identifier())
-//            let orderedTasks = taskIDs.compactMap { orderedTaskID in
-//                tasks.first(where: { $0.id == orderedTaskID }) }
-//            return orderedTasks
             return tasks.filter { $0.id != Onboard.identifier() }
         } catch {
             Logger.insights.error("\(error.localizedDescription, privacy: .public)")
@@ -86,27 +76,8 @@ class InsightsViewController: OCKListViewController {
         }
     }
 
-    /*
-     TODOx: Plot all of your tasks in this method. Note that you can combine multiple
-     tasks into one chart (like the Nausea/Doxlymine chart if they are related.
-    */
-
     func taskViewController(for task: OCKAnyTask,
                             on date: Date) -> [UIViewController]? {
-        /*
-         TODOx: CareKit has 3 plotType's: .bar, .scatter, and .line.
-         You should have a 3 types in your InsightView meaning you
-         should have at least 3 charts. Remember that all of your
-         tasks need to be graphed so you may have more. The solution
-         for not this should not be to show all 3 plot types for a
-         single task. Your code should be flexible enough to determine
-         a graph type. Instead, you should look extend OCKTask and OCKAnyTask
-         to add a "graph" property similar to "card". This means you probably
-         should create a "GraphCard" enum similar to "CareKitCard" and allow
-         the user to select the specific graph when adding a new task.
-         Hint - you should look at the same function in CareViewController
-         to determine how to switch graphs on an enum.
-         */
         let graph: GraphCard!
         if let task = task as? OCKTask {
             graph = task.graph

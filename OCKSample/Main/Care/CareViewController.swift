@@ -213,13 +213,7 @@ class CareViewController: OCKDailyPageViewController {
                                                      eventQuery: .init(for: date),
                                                      storeManager: self.storeManager)]
         case .plan:
-            /*
-             TODOx: Example of showing how to use your custom card. This
-             should be placed correctly for the final to receive credit.
-             This card currently only shows when numericProgress is selected,
-             you should add the card to the switch statement properly to
-             make it show on purpose when the card type is selected.
-            */
+            
             let viewModel = PlanCardViewModel(task: task,
                                                 eventQuery: .init(for: date),
                                                 storeManager: self.storeManager)
