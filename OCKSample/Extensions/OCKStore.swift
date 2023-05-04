@@ -188,7 +188,7 @@ extension OCKStore {
                             schedule: waterSchedule)
         water.impactsAdherence = false
         water.instructions = "Log every time you drink a cup of water."
-        water.asset = "water-drop"
+        water.asset = "water_cup.jpg"
         water.card = .button
         water.graph = .bar
         water.groupIdentifier = "Cups" // unit for data series legend
@@ -365,6 +365,8 @@ extension OCKStore {
         checkInTask.card = .survey
         checkInTask.survey = .checkIn
         checkInTask.graph = .checkIn
+        checkInTask.instructions = "Time for your daily check in!"
+        checkInTask.asset = "check_in.jpg"
 
         let thisMorning = Calendar.current.startOfDay(for: Date())
 
@@ -412,7 +414,9 @@ extension OCKStore {
         rangeOfMotionTask.survey = .rangeOfMotion
         rangeOfMotionTask.graph = .bar
         rangeOfMotionTask.groupIdentifier = "Range (º)" // unit for data series legend
+        rangeOfMotionTask.instructions = "Evaluate your range of motion"
+        rangeOfMotionTask.asset = "motion.jpg"
 
-        try await addTasksIfNotPresent([checkInTask, rangeOfMotionTask])
+        try await addTasksIfNotPresent([rangeOfMotionTask, checkInTask])
     }
 }

@@ -32,15 +32,15 @@ final class SurveyViewSynchronizer: OCKSurveyTaskViewSynchronizer {
              */
 
             switch surveyTask.title {
-            case "Check In":
-                let pain = event.answer(kind: CheckIn.painItemIdentifier)
+            case "Check In 🎟️":
+                let restfulness = event.answer(kind: CheckIn.restItemIdentifier)
                 let sleep = event.answer(kind: CheckIn.sleepItemIdentifier)
 
                 view.instructionsLabel.text = """
-                Pain: \(Int(pain))
+                Restfulness: \(Int(restfulness))
                 Sleep: \(Int(sleep)) hours
                 """
-            case "Range of Motion":
+            case "Range of Motion 🦿":
                 let range = event.answer(kind: #keyPath(ORKRangeOfMotionResult.range))
 
                 view.instructionsLabel.text = """

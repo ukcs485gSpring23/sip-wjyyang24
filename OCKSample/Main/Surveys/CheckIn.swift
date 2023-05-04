@@ -19,8 +19,8 @@ struct CheckIn: Surveyable {
         "\(Self.identifier()).form"
     }
 
-    static var painItemIdentifier: String {
-        "\(Self.identifier()).form.pain"
+    static var restItemIdentifier: String {
+        "\(Self.identifier()).form.rest"
     }
 
     static var sleepItemIdentifier: String {
@@ -32,22 +32,22 @@ struct CheckIn: Surveyable {
 extension CheckIn {
     func createSurvey() -> ORKTask {
 
-        let painAnswerFormat = ORKAnswerFormat.scale(
+        let restAnswerFormat = ORKAnswerFormat.scale(
             withMaximumValue: 10,
             minimumValue: 0,
             defaultValue: 0,
             step: 1,
             vertical: false,
-            maximumValueDescription: "Very painful",
-            minimumValueDescription: "No pain"
+            maximumValueDescription: "Very restful",
+            minimumValueDescription: "Not at all rested"
         )
 
-        let painItem = ORKFormItem(
-            identifier: Self.painItemIdentifier,
-            text: "How would you rate your pain?",
-            answerFormat: painAnswerFormat
+        let restItem = ORKFormItem(
+            identifier: Self.restItemIdentifier,
+            text: "How rested do you feel?",
+            answerFormat: restAnswerFormat
         )
-        painItem.isOptional = false
+        restItem.isOptional = false
 
         let sleepAnswerFormat = ORKAnswerFormat.scale(
             withMaximumValue: 12,
@@ -71,7 +71,7 @@ extension CheckIn {
             title: "Check In",
             text: "Please answer the following questions."
         )
-        formStep.formItems = [painItem, sleepItem]
+        formStep.formItems = [restItem, sleepItem]
         formStep.isOptional = false
 
         let surveyTask = ORKOrderedTask(
@@ -92,7 +92,7 @@ extension CheckIn {
                 .results?.compactMap({ $0 as? ORKScaleQuestionResult }),
 
             let painAnswer = scaleResults
-                .first(where: { $0.identifier == Self.painItemIdentifier })?
+                .first(where: { $0.identifier == Self.restItemIdentifier })?
                 .scaleAnswer,
 
             let sleepAnswer = scaleResults
@@ -104,7 +104,7 @@ extension CheckIn {
         }
 
         var painValue = OCKOutcomeValue(Double(truncating: painAnswer))
-        painValue.kind = Self.painItemIdentifier
+        painValue.kind = Self.restItemIdentifier
 
         var sleepValue = OCKOutcomeValue(Double(truncating: sleepAnswer))
         sleepValue.kind = Self.sleepItemIdentifier
