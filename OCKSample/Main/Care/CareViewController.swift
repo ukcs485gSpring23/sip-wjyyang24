@@ -156,11 +156,11 @@ class CareViewController: OCKDailyPageViewController {
             if isCurrentDay {
                 if Calendar.current.isDate(date, inSameDayAs: Date()) {
                     // Add a non-CareKit view into the list
-                    let tipTitle = "Benefits of exercising"
+                    let tipTitle = "Tips for Building Healthy Habits"
                     // let tipText = "Learn how activity can promote a healthy pregnancy."
                     // swiftlint:disable:next line_length
-                    let customFeaturedView = CustomFeaturedContentView(url: "https://www.uky.edu/hr/work-life-and-well-being/physical-activity",
-                                                                       image: UIImage(named: "exercise.jpg"),
+                    let customFeaturedView = CustomFeaturedContentView(url: "https://www.cdc.gov/diabetes/library/features/3-Steps-Building-Healthy-Habit.html",
+                                                                       image: UIImage(named: "oranges"),
                                                                        text: tipTitle,
                                                                        textColor: .white)
                     listViewController.appendView(customFeaturedView, animated: false)

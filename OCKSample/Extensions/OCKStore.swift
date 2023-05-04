@@ -207,15 +207,36 @@ extension OCKStore {
                                                 interval: DateComponents(day: 1))
         let stretchSchedule = OCKSchedule(composing: [stretchElement])
         var stretch = OCKTask(id: TaskID.stretch,
-                              title: "Stretch",
+                              title: "Get Up and Stretch 🧍",
                               carePlanUUID: carePlanUUID,
                               schedule: stretchSchedule)
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
         stretch.card = .instruction
 
+        let pushupsElement = OCKScheduleElement(start: beforeBreakfast,
+                                                end: nil,
+                                                interval: DateComponents(day: 2),
+                                                text: "10 Push-ups")
+        let situpsElement = OCKScheduleElement(start: beforeBreakfast,
+                                               end: nil,
+                                               interval: DateComponents(day: 2),
+                                               text: "25 Sit-ups")
+        let squatsElement = OCKScheduleElement(start: beforeBreakfast,
+                                               end: nil,
+                                               interval: DateComponents(day: 2),
+                                               text: "15 squats")
+        let workoutSchedule = OCKSchedule(composing: [pushupsElement, situpsElement, squatsElement])
+        var beginnerWorkout = OCKTask(id: TaskID.beginnerWorkout,
+                                      title: "Beginner Workout 💪",
+                                      carePlanUUID: carePlanUUID,
+                                      schedule: workoutSchedule)
+        beginnerWorkout.card = .checklist
+        // swiftlint:disable:next line_length
+        beginnerWorkout.instructions = "An easy workout for beginners to do every 2 days. For more experienced users, create your own workout plan in the profile tab"
+
         let carePlanUUIDs = try await Self.getCarePlanUUIDs()
-        try await addTasksIfNotPresent([nausea, doxylamine, stretch, repetition, water, breakfast])
+        try await addTasksIfNotPresent([nausea, doxylamine, stretch, repetition, water, breakfast, beginnerWorkout])
         try await addOnboardingTask(carePlanUUIDs[.health])
         try await addSurveyTasks(carePlanUUIDs[.checkIn])
 
